@@ -1,3 +1,6 @@
+import { ImageHub } from "../js/imagehub.js";
+import { IntervalHub } from "../js/intervalhub.js";
+import { Keyboard } from "./keyboard.class.js";
 import { MovableObject } from "./moveable-object.class.js";
 
 export class Character extends MovableObject {
@@ -7,7 +10,20 @@ export class Character extends MovableObject {
     y = 180;
 
     constructor() {
-        super().loadImage("img/2_character_pepe/2_walk/W-21.png");
+        super().loadImage(ImageHub.character.idle[0]);
+        this.loadImages(ImageHub.character.walk);
+        IntervalHub.startInterval(this.animate, 90);
+    }
+
+    animate() {
+        if (Keyboard.RIGHT) {
+            const i = this.currentImage % ImageHub.character.walk.length;
+            const path = ImageHub.character.walk[i];
+            console.log(path);
+            console.log(i);
+            this.img = this.imageCache[path];
+            this.currentImage++;
+        }
     }
 
     moveRight() {}

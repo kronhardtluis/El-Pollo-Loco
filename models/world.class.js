@@ -8,20 +8,16 @@ export class World {
     canvas;
 
     character = new Character();
-    enemies = [new Chicken(), new Chicken(), new Chicken()];
+    enemies = [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken()];
 
-    clouds = [
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-    ];
+    clouds = [new Cloud(), new Cloud(), new Cloud()];
 
     backgroundObjects = [
-        new Backgroundobject('img/5_background/layers/air.png'),
-        new Backgroundobject('img/5_background/layers/3_third_layer/1.png'),
-        new Backgroundobject('img/5_background/layers/2_second_layer/1.png'),
-        new Backgroundobject('img/5_background/layers/1_first_layer/1.png'),
-    ]
+        new Backgroundobject("img/5_background/layers/air.png"),
+        new Backgroundobject("img/5_background/layers/3_third_layer/1.png"),
+        new Backgroundobject("img/5_background/layers/2_second_layer/1.png"),
+        new Backgroundobject("img/5_background/layers/1_first_layer/1.png"),
+    ];
 
     constructor(canvas) {
         this.ctx = canvas.getContext("2d");
@@ -42,10 +38,10 @@ export class World {
         });
     }
 
-    addObjectsToMap(objects){
-        objects.forEach(o => {
-            this.addToMap(o)
-        })
+    addObjectsToMap(objects) {
+        objects.forEach((o) => {
+            this.addToMap(o);
+        });
     }
 
     addToMap(mo) {

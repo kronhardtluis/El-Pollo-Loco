@@ -11,10 +11,8 @@ export class Cloud extends MovableObject {
         super().loadImage('img/5_background/layers/4_clouds/full.png');
         this.animate();
     }
+    
     animate() {
-        IntervalHub.startInterval()
-            setInterval(() => {
-            this.x -= Math.random() * 0.05;
-            },100/60);
+        this.moveLeft(Math.random() * 0.05);
         };
 }
