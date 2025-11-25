@@ -1,5 +1,3 @@
-import { IntervalHub } from "../js/intervalhub.js";
-
 export class MovableObject {
     x;
     y;
@@ -22,14 +20,9 @@ export class MovableObject {
         });
     }
 
-    moveRight(){
-        console.log('moving right');
+    moveLeft(speed){
+            this.x -= speed;
     }
 
-    moveLeft(speed){
-        IntervalHub.startInterval()
-            setInterval(() => {
-            this.x -= speed;
-            },100/6);
-    }
+    moveRight(){}
 }
