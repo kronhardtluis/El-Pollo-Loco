@@ -10,18 +10,13 @@ export class Chicken extends MovableObject {
     speed = 50 + Math.random() * 50;
 
     constructor() {
-        super().loadImage(
-            "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png"
-        );
+        super().loadImage(ImageHub.chicken.walk[0]);
         this.loadImages(ImageHub.chicken.walk);
         IntervalHub.startInterval(this.animate, this.speed);     //geschwindigkeit und animation verschnellern sich gleichzeitig
     }
 
     animate = () => {
         this.moveLeft(3);
-        const i = this.currentImage % ImageHub.chicken.walk.length;
-        const path = ImageHub.chicken.walk[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.playAnimation(ImageHub.chicken.walk);
     };
 }

@@ -132,4 +132,52 @@ export class ImageHub {
             "./img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
         ],
     };
+
+    static background = {
+        images: [
+            "./img/5_background/layers/air.png",
+            "./img/5_background/layers/3_third_layer/1.png",
+            "./img/5_background/layers/2_second_layer/1.png",
+            "./img/5_background/layers/1_first_layer/1.png",
+            "./img/5_background/layers/air.png",
+            "./img/5_background/layers/3_third_layer/2.png",
+            "./img/5_background/layers/2_second_layer/2.png",
+            "./img/5_background/layers/1_first_layer/2.png",
+        ],
+    };
+
+    static bars = {
+        health: [
+            "./img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
+            "./img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png",
+            "./img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png",
+            "./img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png",
+            "./img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
+            "./img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
+        ],
+        coins: [
+            "./img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png",
+            "./img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png",
+            "./img/7_statusbars/1_statusbar/1_statusbar_coin/orange/40.png",
+            "./img/7_statusbars/1_statusbar/1_statusbar_coin/orange/60.png",
+            "./img/7_statusbars/1_statusbar/1_statusbar_coin/orange/80.png",
+            "./img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png",
+        ],
+        bottle: [
+            "./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png",
+            "./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png",
+            "./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png",
+            "./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png",
+            "./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png",
+            "./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png",
+        ],
+        boss: [
+            "./img/7_statusbars/2_statusbar_endboss/green/green0.png",
+            "./img/7_statusbars/2_statusbar_endboss/green/green20.png",
+            "./img/7_statusbars/2_statusbar_endboss/green/green40.png",
+            "./img/7_statusbars/2_statusbar_endboss/green/green60.png",
+            "./img/7_statusbars/2_statusbar_endboss/green/green80.png",
+            "./img/7_statusbars/2_statusbar_endboss/green/green100.png",
+        ],
+    };
 }
