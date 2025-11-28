@@ -1,6 +1,6 @@
 import { DrawableObject } from "./drawable-object.class.js";
 
-export class MovableObject extends DrawableObject{
+export class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -13,7 +13,7 @@ export class MovableObject extends DrawableObject{
         if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
-            if(this.y + this.height > 430) {
+            if (this.y + this.height > 430) {
                 this.y = 430 - this.height;
             }
         }

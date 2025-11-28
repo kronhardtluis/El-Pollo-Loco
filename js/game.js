@@ -1,11 +1,11 @@
 import { World } from "../models/world.class.js";
 
-let CANVAS;
-let WORLD;
+let canvas;
+let world;
 
 function init() {
-    CANVAS = document.getElementById('canvas');
-    WORLD = new World(CANVAS);
+    canvas = document.getElementById('canvas');
+    world = new World(canvas);
 }
 
 init();

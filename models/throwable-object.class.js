@@ -9,7 +9,7 @@ export class ThrowableObject extends MovableObject {
     constructor() {
         super().loadImage(ImageHub.bottle.rotation[0]);
         this.loadImages(ImageHub.bottle.splash);
-        this.throw(50, 310);
+        this.throw(150, 310);
         this.height = 50;
         this.width = 40;
         IntervalHub.startInterval(this.animate, 30);
@@ -19,11 +19,11 @@ export class ThrowableObject extends MovableObject {
     throw(_x, _y) {
         this.x = _x;
         this.y = _y;
+        if(Keyboard.SPACE) {
+            
+        }
     }
 
     animate = () => {
-        if(Keyboard.SPACE) {
-            this.moveRight(this.speed);
-        }
     }
 }

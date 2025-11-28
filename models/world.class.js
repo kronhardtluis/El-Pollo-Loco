@@ -27,24 +27,25 @@ export class World {
 
     checkCollisions = () => {
         LEVEL1.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.statusbar.setPercentage(this.character.energy)
+                this.statusbar.setPercentage(this.character.energy);
             }
-        })
-    }
+        });
+    };
 
+    // #region Bilder einfügen
+    // leeren und wieder einfügen der Bilder ins Canvas
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusbar)
-
+        this.addToMap(this.statusbar);
         requestAnimationFrame(() => this.draw());
     }
 
@@ -65,6 +66,7 @@ export class World {
         }
     }
 
+    // spiegelt das Bild
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -72,8 +74,10 @@ export class World {
         mo.x = mo.x * -1;
     }
 
+    // spiegelt das Bild wieder zurück
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+    // #endregion
 }

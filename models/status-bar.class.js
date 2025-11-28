@@ -22,6 +22,7 @@ export class Statusbar extends DrawableObject {
         this.img = this.imageCache[path];
     }
 
+    // ändert das Bild anhand der Lebensanzahl
     resolveImageIndex(){
         if(this.percentage == 100) {
             return 5;

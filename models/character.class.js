@@ -4,15 +4,20 @@ import { Keyboard } from "./keyboard.class.js";
 import { MovableObject } from "./moveable-object.class.js";
 
 export class Character extends MovableObject {
+    // #region Attributes
     width = 100;
     height = 250;
-    x = 0;
+    x = 100;
     y = 180;
-    speed = 15;
+    speed = 25;
     world;
+    doingNothing = false;
+    // #endregion
 
     constructor() {
         super().loadImage(ImageHub.character.idle[0]);
+        this.loadImages(ImageHub.character.idle);
+        this.loadImages(ImageHub.character.idleLong);
         this.loadImages(ImageHub.character.walk);
         this.loadImages(ImageHub.character.jump);
         this.loadImages(ImageHub.character.hurt);
@@ -21,7 +26,11 @@ export class Character extends MovableObject {
         IntervalHub.startInterval(this.animate, 1000 / 30);
     }
 
+    // tot-abfrage + Spring-/Laufanimation
     animate = () => {
+        if (this.isDead()) {
+            this.playAnimation(ImageHub.character.dead);
+        } else {
         if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight(this.speed);
             this.otherDirection = false;
@@ -33,16 +42,18 @@ export class Character extends MovableObject {
         if (Keyboard.UP && !this.isAboveGround()) {
             this.jump();
         }
-        if (this.isDead()) {
-            this.playAnimation(ImageHub.character.dead);
-        }else if (this.isHurt()) {
+        if (this.isHurt()) {
             this.playAnimation(ImageHub.character.hurt);
-        }else if (this.isAboveGround() || this.speedY > 0) {
+        } else if (this.isAboveGround() || this.speedY > 0) {
             this.playAnimation(ImageHub.character.jump);
         } else if (Keyboard.RIGHT || Keyboard.LEFT) {
             this.playAnimation(ImageHub.character.walk);
+        } else {
+            this.doingNothing = true;
+            this.loadImage(ImageHub.character.idle[0])
         }
         this.world.camera_x = -this.x + 100;
+        }
     };
 }
 

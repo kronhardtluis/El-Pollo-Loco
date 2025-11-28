@@ -6,6 +6,8 @@ import { Endboss } from "../models/endboss.class.js";
 import { Level } from "../models/level.class.js";
 
 export const LEVEL1 = new Level({
+    
+    // festlegen der in diesem Level vorkommenden Strukturen
     _enemies: [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Endboss()],
     _clouds: [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()],
     _backgroundObjects: [

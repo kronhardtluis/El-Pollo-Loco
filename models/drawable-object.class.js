@@ -9,12 +9,7 @@ export class DrawableObject {
 
     loadImage(path) {
         this.img = new Image();
-        
         this.img.src = path;
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     loadImages(arr) {
@@ -25,6 +20,12 @@ export class DrawableObject {
         });
     }
 
+    // Bild wird in canvas eingefügt (MALEN/ZEICHNEN)
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    // Rahmen werden eingefügt
     drawFrame(ctx) {
         ctx.beginPath();
         ctx.lineWidth = "5";
