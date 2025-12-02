@@ -1,5 +1,7 @@
+//#region Imports
 import { IntervalHub } from "../js/intervalhub.js";
 import { MovableObject } from "./moveable-object.class.js";
+//#endregion
 
 export class Cloud extends MovableObject {
     y = 0;
@@ -12,6 +14,7 @@ export class Cloud extends MovableObject {
         IntervalHub.startInterval(this.animate, 1000/60);
     }
     
+    // wird 60x/sec ausgeführt
     animate = () => {
         this.moveLeft(Math.random() * 0.05);
         };

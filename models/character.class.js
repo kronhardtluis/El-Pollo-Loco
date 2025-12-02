@@ -23,14 +23,15 @@ export class Character extends MovableObject {
         this.loadImages(ImageHub.character.hurt);
         this.loadImages(ImageHub.character.dead);
         IntervalHub.startInterval(this.applyGravity, 30);
-        IntervalHub.startInterval(this.animate, 1000 / 30);
+        IntervalHub.startInterval(this.animate, 1000 / 12);
     }
 
     // tot-abfrage + Spring-/Laufanimation
     animate = () => {
-        if (this.isDead()) {
-            this.playAnimation(ImageHub.character.dead);
-        } else {
+        // if (this.isDead()) {
+        //     this.playAnimation(ImageHub.character.dead);
+        //     setTimeout(IntervalHub.stopAllIntervals, 2000);
+        // } else {
         if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight(this.speed);
             this.otherDirection = false;
@@ -45,7 +46,9 @@ export class Character extends MovableObject {
         if (this.isHurt()) {
             this.playAnimation(ImageHub.character.hurt);
         } else if (this.isAboveGround() || this.speedY > 0) {
-            this.playAnimation(ImageHub.character.jump);
+            this.playAnimationOnce(ImageHub.character.jump, 0, 3);
+        }else if (this.isAboveGround() || this.speedY < 0){
+            this.playAnimationOnce(ImageHub.character.jump, 4, 8);
         } else if (Keyboard.RIGHT || Keyboard.LEFT) {
             this.playAnimation(ImageHub.character.walk);
         } else {
@@ -53,28 +56,6 @@ export class Character extends MovableObject {
             this.loadImage(ImageHub.character.idle[0])
         }
         this.world.camera_x = -this.x + 100;
-        }
+        // }
     };
 }
-
-// idle() {
-//     if (
-//         Keyboard.RIGHT == false &&
-//         Keyboard.UP == false &&
-//         Keyboard.LEFT == false &&
-//         Keyboard.SPACE == false
-//     ) {
-//         const i = this.currentImage % ImageHub.character.idle.length;
-//         const path = ImageHub.character.idle[i];
-//         this.img = this.imageCache[path];
-//         this.currentImage++;
-//     }
-// }
-
-// if () {
-//     this.x -= this.speed;
-//     const i = this.currentImage % ImageHub.character.walk.length;
-//     const path = ImageHub.character.walk[i];
-//     this.img = this.imageCache[path];
-//     this.currentImage++;
-// }

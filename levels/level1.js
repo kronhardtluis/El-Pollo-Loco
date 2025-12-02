@@ -1,9 +1,11 @@
+//#region Imports
 import { ImageHub } from "../js/imagehub.js";
 import { Backgroundobject } from "../models/background-object.class.js";
 import { Chicken } from "../models/chicken.class.js";
 import { Cloud } from "../models/cloud.class.js";
 import { Endboss } from "../models/endboss.class.js";
 import { Level } from "../models/level.class.js";
+//#endregion
 
 export const LEVEL1 = new Level({
     

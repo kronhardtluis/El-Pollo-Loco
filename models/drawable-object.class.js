@@ -1,4 +1,5 @@
 export class DrawableObject {
+    //#region Attributes
     img;
     imageCache = {};
     currentImage = 0;
@@ -6,12 +7,15 @@ export class DrawableObject {
     y;
     height = 150;
     width = 100;
+    //#endregion
 
+    // fügt ein Bild dem Speicher hinzu
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+    // fügt jedes einzelne Bild aus dem Array dem Speicher hinzu
     loadImages(arr) {
         arr.forEach((path) => {
             const img = new Image();

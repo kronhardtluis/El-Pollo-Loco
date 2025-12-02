@@ -1,8 +1,10 @@
 export class Keyboard {
+    // #region Attributes
     static UP = false;
     static LEFT = false;
     static RIGHT = false;
     static SPACE = false;
+    //#endregion
 
     static setControls() {
         window.addEventListener("keydown", (e) => {

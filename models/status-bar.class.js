@@ -1,5 +1,7 @@
+//#region Imports
 import { ImageHub } from "../js/imagehub.js";
 import { DrawableObject } from "./drawable-object.class.js";
+//#endregion
 
 export class Statusbar extends DrawableObject {
     percentage = 100;
@@ -9,7 +11,7 @@ export class Statusbar extends DrawableObject {
         super();
         this.loadImages(ImageHub.bars.health);
         this.x = 0;
-        this.y = -10 + this.height * Statusbar.count;
+        this.y = (-10 + this.height) * Statusbar.count;
         this.width = 200;
         this.height = 60;
         this.setPercentage(100);

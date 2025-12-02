@@ -1,6 +1,7 @@
 import { DrawableObject } from "./drawable-object.class.js";
 
 export class MovableObject extends DrawableObject {
+    //#region Attributes
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -8,6 +9,8 @@ export class MovableObject extends DrawableObject {
     energy = 100;
     damage = 2;
     lastHit = 0;
+    animationStarted = false;
+    //#endregion
 
     applyGravity = () => {
         if (this.isAboveGround() || this.speedY > 0) {
@@ -23,6 +26,7 @@ export class MovableObject extends DrawableObject {
         return this.y + this.height < 430;
     }
 
+    // collisiondetecting
     isColliding(mo) {
         return (
             this.x + this.width > mo.x &&
@@ -32,6 +36,7 @@ export class MovableObject extends DrawableObject {
         );
     }
 
+    //#region Character-Schaden
     hit() {
         this.energy -= this.damage;
         if (this.energy < 0) {
@@ -41,6 +46,7 @@ export class MovableObject extends DrawableObject {
         }
     }
 
+    // timer für Schadensanimation
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
@@ -50,12 +56,36 @@ export class MovableObject extends DrawableObject {
     isDead() {
         return this.energy == 0;
     }
+    //#endregion
 
     playAnimation(images) {
         const i = this.currentImage % images.length;
         const path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
+    }
+
+    playAnimationOnce(images, iStart, iEnd) {
+        let i;
+        if(!this.animationStarted) {
+            this.animationStarted = true;
+            i = iStart;
+            setTimeout(this.getIndex(i, iEnd), 300);
+        }
+        const path = images[i];
+        this.img = this.imageCache[path];
+        // const i = iStart;
+        // if(i < iEnd) {
+        //     const path = images[i];
+        //     this.img = this.imageCache[path];
+        //     i++;
+        // }
+    }
+
+    getIndex(i, iEnd){
+        if(i < iEnd) {
+            return i++;
+        };
     }
 
     moveRight(speed) {
