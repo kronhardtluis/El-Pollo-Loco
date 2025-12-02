@@ -42,12 +42,13 @@ export class Character extends MovableObject {
         }
         if (Keyboard.UP && !this.isAboveGround()) {
             this.jump();
+
         }
         if (this.isHurt()) {
             this.playAnimation(ImageHub.character.hurt);
-        } else if (this.isAboveGround() || this.speedY > 0) {
+        } else if (this.isAboveGround() && this.speedY > 0) {
             this.playAnimationOnce(ImageHub.character.jump, 0, 3);
-        }else if (this.isAboveGround() || this.speedY < 0){
+        }else if (this.isAboveGround() && this.speedY < 0){
             this.playAnimationOnce(ImageHub.character.jump, 4, 8);
         } else if (Keyboard.RIGHT || Keyboard.LEFT) {
             this.playAnimation(ImageHub.character.walk);

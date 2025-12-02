@@ -23,14 +23,14 @@ export class ThrowableObject extends MovableObject {
     throw(_x, _y) {
         this.x = _x + 40;
         this.y = _y + 130;
-        this.speedY = 10;
+        this.speedY = 25;
     }
 
     animate = () => {
         if (this.checkCollision()) {
             console.log("hit");
         } else {
-            this.x += 15;
+            this.x += 8;
         }
     };
 

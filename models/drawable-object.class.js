@@ -26,8 +26,14 @@ export class DrawableObject {
 
     // Bild wird in canvas eingefügt (MALEN/ZEICHNEN)
     draw(ctx) {
+        try{
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    } catch(e) {
+        console.warn("Error loading image ", e);
+        console.log("Could not load Image, ", this.img.src);
+        
     }
+}
 
     // Rahmen werden eingefügt
     drawFrame(ctx) {

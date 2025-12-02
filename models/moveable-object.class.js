@@ -10,6 +10,8 @@ export class MovableObject extends DrawableObject {
     damage = 2;
     lastHit = 0;
     animationStarted = false;
+    onceIndex;
+    onceIndexInterval = [];
     //#endregion
 
     applyGravity = () => {
@@ -66,25 +68,25 @@ export class MovableObject extends DrawableObject {
     }
 
     playAnimationOnce(images, iStart, iEnd) {
-        let i;
         if(!this.animationStarted) {
+            this.onceIndex = iStart;
+            const intervalRef = this.onceIndexInterval;
+            const newInterval = setInterval(this.getIndex(iEnd), 300);
+            intervalRef.push(newInterval); //Intervall läuft nur einmal durch
             this.animationStarted = true;
-            i = iStart;
-            setTimeout(this.getIndex(i, iEnd), 300);
         }
-        const path = images[i];
+        const path = images[this.onceIndex];
         this.img = this.imageCache[path];
-        // const i = iStart;
-        // if(i < iEnd) {
-        //     const path = images[i];
-        //     this.img = this.imageCache[path];
-        //     i++;
-        // }
     }
 
-    getIndex(i, iEnd){
-        if(i < iEnd) {
-            return i++;
+    getIndex(iEnd) {
+        console.log("Intervall läuft");
+        if(this.onceIndex < iEnd) {
+            this.onceIndex++;
+        } else {
+            this.animationStarted = false;
+            clearInterval(this.onceIndexInterval);
+            this.onceIndexInterval = [];
         };
     }
 
