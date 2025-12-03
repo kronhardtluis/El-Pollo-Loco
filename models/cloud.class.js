@@ -10,7 +10,8 @@ export class Cloud extends MovableObject {
     height = 300;
 
     constructor(){
-        super().loadImage('img/5_background/layers/4_clouds/full.png');
+        super();
+        this.loadImage('img/5_background/layers/4_clouds/full.png');
         IntervalHub.startInterval(this.animate, 1000/60);
     }
     

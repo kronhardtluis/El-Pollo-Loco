@@ -9,7 +9,8 @@ export class Backgroundobject extends MovableObject {
     //#endregion
 
     constructor(imagePath, x) {
-        super().loadImage(imagePath);
+        super();
+        this.loadImage(imagePath);
         this.x = x;
     }
 }

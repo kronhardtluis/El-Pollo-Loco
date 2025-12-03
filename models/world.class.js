@@ -1,4 +1,5 @@
 //#region Imports
+import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { LEVEL1 } from "../levels/level1.js";
 import { Character } from "./character.class.js";
@@ -14,7 +15,9 @@ export class World {
     canvas;
     ctx;
     camera_x = 0;
-    statusbar = new Statusbar();
+    healthbar = new Statusbar({images: ImageHub.bars.health, _percentage: 100});
+    coinbar = new Statusbar({images: ImageHub.bars.coins, _percentage: 0});
+    bottlebar = new Statusbar({images: ImageHub.bars.bottle, _percentage: 0});
     throwableObjects = [];
     static cooldown = false;
     //#endregion
@@ -33,20 +36,31 @@ export class World {
 
     // Sammlung der dauerhaften Checks
     run = () => {
-        this.checkCollisions();
+        this.checkCharacterCollisions();
         this.checkBottle();
+        // this.checkBottleCollision();
     }
 
-    checkCollisions() {
+    // überprüft Charactercollision mit Gegnern
+    checkCharacterCollisions() {
         LEVEL1.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.statusbar.setPercentage(this.character.energy);
+                this.healthbar.setPercentage(ImageHub.bars.health, this.character.energy);
             }
         });
     };
 
-    // werfen der Flasche + Cooldown
+    // checkBottleCollision() {
+    //         LEVEL1.enemies.forEach((enemy) => {
+    //             if (this.isColliding(enemy)) {
+    //                 console.log("hit");
+                    
+    //             }
+    // });
+    // }
+
+    // Werfen der Flasche + Cooldown
     checkBottle() {
         if(Keyboard.SPACE && World.cooldown == false) {
             const bottle = new ThrowableObject(this.character.x, this.character.y);
@@ -67,7 +81,9 @@ export class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusbar);
+        this.addToMap(this.healthbar);
+        this.addToMap(this.coinbar);
+        this.addToMap(this.bottlebar);
         requestAnimationFrame(() => this.draw());
     }
 

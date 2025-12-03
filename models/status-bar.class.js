@@ -4,27 +4,25 @@ import { DrawableObject } from "./drawable-object.class.js";
 //#endregion
 
 export class Statusbar extends DrawableObject {
-    percentage = 100;
     static count = 0;
+    percentage;
 
-    constructor() {
+    constructor({images, _percentage}={}) {
         super();
-        this.loadImages(ImageHub.bars.health);
         this.x = 0;
-        this.y = (-10 + this.height) * Statusbar.count;
         this.width = 200;
-        this.height = 60;
-        this.setPercentage(100);
+        this.height = 50;
+        this.y = (this.height - 10) * Statusbar.count - 10;
+        this.setPercentage(images, _percentage);
         Statusbar.count++;
     }
 
-    setPercentage(_percentage) {
+    setPercentage(images, _percentage) {
         this.percentage = _percentage;
-        const path = ImageHub.bars.health[this.resolveImageIndex()];
-        this.img = this.imageCache[path];
+        this.loadImage(images[this.resolveImageIndex()]);
     }
 
-    // ändert das Bild anhand der Lebensanzahl
+    // ändert das Bild anhand des Prozentsatzes
     resolveImageIndex(){
         if(this.percentage == 100) {
             return 5;

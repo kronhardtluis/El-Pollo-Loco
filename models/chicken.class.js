@@ -14,7 +14,8 @@ export class Chicken extends MovableObject {
     //#endregion
 
     constructor() {
-        super().loadImage(ImageHub.chicken.walk[0]);
+        super();
+        this.loadImage(ImageHub.chicken.walk[0]);
         this.loadImages(ImageHub.chicken.walk);
         IntervalHub.startInterval(this.animate, this.speed);     //geschwindigkeit und animation verschnellern sich gleichzeitig
     }

@@ -13,7 +13,8 @@ export class Endboss extends MovableObject {
     //#endregion
 
     constructor() {
-        super().loadImage(ImageHub.boss.alert[0]);
+        super();
+        this.loadImage(ImageHub.boss.alert[0]);
         this.loadImages(ImageHub.boss.alert);
         IntervalHub.startInterval(this.animate, 100);
     }

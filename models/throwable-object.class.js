@@ -11,6 +11,7 @@ export class ThrowableObject extends MovableObject {
     constructor(_x, _y) {
         super();
         this.loadImage(ImageHub.salsaBottle.rotation[0]);
+        this.loadImages(ImageHub.salsaBottle.rotation);
         this.loadImages(ImageHub.salsaBottle.splash);
         this.throw(_x, _y);
         this.height = 50;
@@ -27,20 +28,20 @@ export class ThrowableObject extends MovableObject {
     }
 
     animate = () => {
-        if (this.checkCollision()) {
-            console.log("hit");
-        } else {
-            this.x += 8;
-        }
+        // if (this.checkCollision()) {
+        //     console.log("hit");
+        // } else {
+        //     this.x += 8;
+        // }
     };
 
     splash() {}
 
-    checkCollision() {
-        if(this.x > 180) {
-            LEVEL1.enemies.forEach((enemy) => this.isColliding(enemy));
-        }
-    }
+    // checkCollision() {
+    //     if(this.y > 180) {
+    //         LEVEL1.enemies.forEach((enemy) => this.isColliding(enemy));
+    //     }
+    // }
 }
 
 // flaschen nach dem platzen/level wieder löschen

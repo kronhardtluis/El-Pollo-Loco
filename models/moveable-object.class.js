@@ -9,9 +9,7 @@ export class MovableObject extends DrawableObject {
     energy = 100;
     damage = 2;
     lastHit = 0;
-    animationStarted = false;
-    onceIndex;
-    onceIndexInterval = [];
+    animationStart = false;
     //#endregion
 
     applyGravity = () => {
@@ -55,6 +53,7 @@ export class MovableObject extends DrawableObject {
         return timepassed < 1;
     }
 
+    // returnt energy == 0
     isDead() {
         return this.energy == 0;
     }
@@ -67,37 +66,35 @@ export class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-    playAnimationOnce(images, iStart, iEnd) {
-        if(!this.animationStarted) {
-            this.onceIndex = iStart;
-            const intervalRef = this.onceIndexInterval;
-            const newInterval = setInterval(this.getIndex(iEnd), 300);
-            intervalRef.push(newInterval); //Intervall läuft nur einmal durch
-            this.animationStarted = true;
+    // spielt Animation nur einmal ab
+    jumpAnimation(images, maxImage) {
+        if (!this.animationStart) {
+            this.currentImage = 1;
         }
-        const path = images[this.onceIndex];
-        this.img = this.imageCache[path];
-    }
-
-    getIndex(iEnd) {
-        console.log("Intervall läuft");
-        if(this.onceIndex < iEnd) {
-            this.onceIndex++;
+        if (this.isAboveGround()) {
+            this.animationStart = true;
+            if (this.currentImage < maxImage && this.animationStart) {
+                const path = images[this.currentImage];
+                this.img = this.imageCache[path];
+                this.currentImage++;
+            }
         } else {
-            this.animationStarted = false;
-            clearInterval(this.onceIndexInterval);
-            this.onceIndexInterval = [];
-        };
+            this.animationStart = false;
+            this.currentImage = 0;
+        }
     }
 
+    // erhöht x durch Addition mit speed
     moveRight(speed) {
         this.x += speed;
     }
 
+    // verringert x durch Subtraktion mit speed
     moveLeft(speed) {
         this.x -= speed;
     }
 
+    // setzt speedY auf 30
     jump() {
         this.speedY = 30;
     }
