@@ -30,13 +30,10 @@ export class ThrowableObject extends MovableObject {
             this.x += 8;
     };
 
-    splash() {}
-
-    // checkCollision() {
-    //     if(this.y > 180) {
-    //         LEVEL1.enemies.forEach((enemy) => this.isColliding(enemy));
-    //     }
-    // }
+    splash() {
+        this.currentImage = 0;
+        this.jumpAnimation(ImageHub.salsaBottle.splash);
+    }
 }
 
 // flaschen nach dem platzen/level wieder löschen

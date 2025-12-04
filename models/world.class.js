@@ -38,7 +38,7 @@ export class World {
     run = () => {
         this.checkCharacterCollisions();
         this.checkBottle();
-        this.checkBottleCollision();
+        // this.checkBottleCollision();
     }
 
     // überprüft Charactercollision mit Gegnern
@@ -55,6 +55,7 @@ export class World {
             LEVEL1.enemies.forEach((enemy) => {
                 if (this.throwableObjects.isColliding(enemy) || this.y > 180) {
                     console.log("hit");
+                    // ThrowableObject.splash();
                 }
     });
     }
@@ -109,11 +110,13 @@ export class World {
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
         mo.x = mo.x * -1;
+        mo.rX = mo.rX * -1; // am Ende löschen
     }
 
     // spiegelt das Bild wieder zurück
     flipImageBack(mo) {
         mo.x = mo.x * -1;
+        mo.rX = mo.rX * -1; // am Ende löschen
         this.ctx.restore();
     }
     // #endregion

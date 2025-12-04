@@ -15,6 +15,7 @@ export class MovableObject extends DrawableObject {
     applyGravity = () => {
         if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
+            this.rY -= this.speedY;
             this.speedY -= this.acceleration;
             if (this.y + this.height > 430) {
                 this.y = 430 - this.height;
@@ -29,10 +30,10 @@ export class MovableObject extends DrawableObject {
     // collisiondetecting
     isColliding(mo) {
         return (
-            this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x + mo.width &&
-            this.y < mo.y + mo.height
+            this.rX + this.rW > mo.rX &&
+            this.rY + this.rH > mo.rY &&
+            this.rX < mo.rX + mo.rW &&
+            this.rY < mo.rY + mo.rH
         );
     }
 
@@ -87,11 +88,13 @@ export class MovableObject extends DrawableObject {
     // erhöht x durch Addition mit speed
     moveRight(speed) {
         this.x += speed;
+        this.rX += speed;
     }
 
     // verringert x durch Subtraktion mit speed
     moveLeft(speed) {
         this.x -= speed;
+        this.rX -= speed;
     }
 
     // setzt speedY auf 30

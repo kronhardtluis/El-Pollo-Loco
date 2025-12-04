@@ -38,9 +38,9 @@ export class DrawableObject {
     // Rahmen werden eingefügt
     drawFrame(ctx) {
         ctx.beginPath();
-        ctx.lineWidth = "5";
-        ctx.strokeStyle = "blue";
-        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.lineWidth = "3";
+        ctx.strokeStyle = "cyan";
+        ctx.rect(this.rX, this.rY, this.rW, this.rH);
         ctx.stroke();
     }
 }

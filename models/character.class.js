@@ -1,7 +1,10 @@
+//#region Imports
 import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { Keyboard } from "./keyboard.class.js";
+import { Level } from "./level.class.js";
 import { MovableObject } from "./moveable-object.class.js";
+//#endregion
 
 export class Character extends MovableObject {
     // #region Attributes
@@ -9,6 +12,16 @@ export class Character extends MovableObject {
     height = 250;
     x = 100;
     y = 180;
+    rX;
+    rY;
+    rW;
+    rH;
+    offset = {
+        top: 120,
+        right: 27,
+        bottom: 30,
+        left: 15,
+    };
     speed = 25;
     world;
     doingNothing = false;
@@ -24,6 +37,7 @@ export class Character extends MovableObject {
         this.loadImages(ImageHub.character.jump);
         this.loadImages(ImageHub.character.hurt);
         this.loadImages(ImageHub.character.dead);
+        this.getRealFrame();
         IntervalHub.startInterval(this.applyGravity, 30);
         IntervalHub.startInterval(this.animate, 1000 / 12);
     }
@@ -34,12 +48,12 @@ export class Character extends MovableObject {
         //     this.playAnimation(ImageHub.character.dead);
         //     setTimeout(IntervalHub.stopAllIntervals, 370);
         // } else {
-        if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        if (Keyboard.RIGHT && this.x < Level.levelEndX + 90) {
             this.resetIdle();
             this.moveRight(this.speed);
             this.otherDirection = false;
         }
-        if (Keyboard.LEFT && this.x > -615) {
+        if (Keyboard.LEFT && this.x > -600) {
             this.resetIdle();
             this.moveLeft(this.speed);
             this.otherDirection = true;
@@ -63,11 +77,11 @@ export class Character extends MovableObject {
         } else {
             if (!this.doingNothing && !this.sleeping) {
                 this.loadImage(ImageHub.character.idle[0]);
-                setTimeout(this.doingNothing = true, 2000);
+                setTimeout((this.doingNothing = true), 2000);
             }
             if (this.doingNothing && !this.sleeping) {
                 this.playAnimation(ImageHub.character.idle);
-                setTimeout(this.sleeping = true, 3000);
+                setTimeout((this.sleeping = true), 3000);
             }
             if (this.doingNothing && this.sleeping) {
                 this.playAnimation(ImageHub.character.idleLong);
@@ -80,5 +94,12 @@ export class Character extends MovableObject {
     resetIdle() {
         this.doingNothing = false;
         this.sleeping = false;
+    }
+
+    getRealFrame(){
+        this.rX = this.x + this.offset.left;
+        this.rY = this.y + this.offset.top;
+        this.rW = this.width - this.offset.left - this.offset.right;
+        this.rH = this.height - this.offset.top - this.offset.bottom;
     }
 }
