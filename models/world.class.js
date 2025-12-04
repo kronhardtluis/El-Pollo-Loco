@@ -31,14 +31,14 @@ export class World {
     }
 
     setWorld() {
-        this.character.world = this;
+        this.character.world = this; // fügt dem Attribut world der instanzierten Klasse Character die Instanz von der erstellten Welt hinzu
     }
 
     // Sammlung der dauerhaften Checks
     run = () => {
         this.checkCharacterCollisions();
         this.checkBottle();
-        // this.checkBottleCollision();
+        this.checkBottleCollision();
     }
 
     // überprüft Charactercollision mit Gegnern
@@ -51,14 +51,13 @@ export class World {
         });
     };
 
-    // checkBottleCollision() {
-    //         LEVEL1.enemies.forEach((enemy) => {
-    //             if (this.isColliding(enemy)) {
-    //                 console.log("hit");
-                    
-    //             }
-    // });
-    // }
+    checkBottleCollision() {
+            LEVEL1.enemies.forEach((enemy) => {
+                if (this.throwableObjects.isColliding(enemy) || this.y > 180) {
+                    console.log("hit");
+                }
+    });
+    }
 
     // Werfen der Flasche + Cooldown
     checkBottle() {

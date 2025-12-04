@@ -12,6 +12,7 @@ export class Character extends MovableObject {
     speed = 25;
     world;
     doingNothing = false;
+    sleeping = false;
     // #endregion
 
     constructor() {
@@ -31,20 +32,24 @@ export class Character extends MovableObject {
     animate = () => {
         // if (this.isDead()) {
         //     this.playAnimation(ImageHub.character.dead);
-        //     setTimeout(IntervalHub.stopAllIntervals, 2000);
+        //     setTimeout(IntervalHub.stopAllIntervals, 370);
         // } else {
         if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.resetIdle();
             this.moveRight(this.speed);
             this.otherDirection = false;
         }
         if (Keyboard.LEFT && this.x > -615) {
+            this.resetIdle();
             this.moveLeft(this.speed);
             this.otherDirection = true;
         }
         if (Keyboard.UP && !this.isAboveGround()) {
+            this.resetIdle();
             this.jump();
         }
         if (this.isHurt()) {
+            this.resetIdle();
             this.playAnimation(ImageHub.character.hurt);
         } else if (this.speedY > 0) {
             this.jumpAnimation(ImageHub.character.jump, 4);
@@ -56,10 +61,24 @@ export class Character extends MovableObject {
         } else if (Keyboard.RIGHT || Keyboard.LEFT) {
             this.playAnimation(ImageHub.character.walk);
         } else {
-            this.doingNothing = true;
-            this.loadImage(ImageHub.character.idle[0]);
+            if (!this.doingNothing && !this.sleeping) {
+                this.loadImage(ImageHub.character.idle[0]);
+                setTimeout(this.doingNothing = true, 2000);
+            }
+            if (this.doingNothing && !this.sleeping) {
+                this.playAnimation(ImageHub.character.idle);
+                setTimeout(this.sleeping = true, 3000);
+            }
+            if (this.doingNothing && this.sleeping) {
+                this.playAnimation(ImageHub.character.idleLong);
+            }
         }
         this.world.camera_x = -this.x + 100;
         // }
     };
+
+    resetIdle() {
+        this.doingNothing = false;
+        this.sleeping = false;
+    }
 }

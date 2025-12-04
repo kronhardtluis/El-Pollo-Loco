@@ -1,7 +1,6 @@
 //#region Imports
 import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
-import { LEVEL1 } from "../levels/level1.js";
 import { MovableObject } from "./moveable-object.class.js";
 //#endregion
 
@@ -28,11 +27,7 @@ export class ThrowableObject extends MovableObject {
     }
 
     animate = () => {
-        // if (this.checkCollision()) {
-        //     console.log("hit");
-        // } else {
-        //     this.x += 8;
-        // }
+            this.x += 8;
     };
 
     splash() {}
