@@ -8,6 +8,8 @@ import { Statusbar } from "./status-bar.class.js";
 import { ThrowableObject } from "./throwable-object.class.js";
 //#endregion
 
+// für Splashanimation und Löschen der Flasche ein Ticket
+
 export class World {
     //#region Attributes
     character = new Character();
@@ -23,8 +25,8 @@ export class World {
     bottlebar = new Statusbar({ images: ImageHub.bars.bottle, _percentage: 0 });
     throwableObjects = [];
     static cooldown = false;
-    // imageCache = {};
-    // currentImage = 0;
+    imageCache = {};
+    currentImage = 0;
     //#endregion
 
     constructor(canvas) {
@@ -96,7 +98,7 @@ export class World {
             World.cooldown = true;
             setTimeout(() => {
                 World.cooldown = false;
-            }, 685);
+            }, 343);
         }
     }
 

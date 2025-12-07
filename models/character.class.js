@@ -6,6 +6,8 @@ import { Level } from "./level.class.js";
 import { MovableObject } from "./moveable-object.class.js";
 //#endregion
 
+// für anyKey (Space-taste ein Ticket)
+
 export class Character extends MovableObject {
     // #region Attributes
     width = 100;
