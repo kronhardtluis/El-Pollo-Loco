@@ -15,11 +15,16 @@ export class World {
     canvas;
     ctx;
     camera_x = 0;
-    healthbar = new Statusbar({images: ImageHub.bars.health, _percentage: 100});
-    coinbar = new Statusbar({images: ImageHub.bars.coins, _percentage: 0});
-    bottlebar = new Statusbar({images: ImageHub.bars.bottle, _percentage: 0});
+    healthbar = new Statusbar({
+        images: ImageHub.bars.health,
+        _percentage: 100,
+    });
+    coinbar = new Statusbar({ images: ImageHub.bars.coins, _percentage: 0 });
+    bottlebar = new Statusbar({ images: ImageHub.bars.bottle, _percentage: 0 });
     throwableObjects = [];
     static cooldown = false;
+    // imageCache = {};
+    // currentImage = 0;
     //#endregion
 
     constructor(canvas) {
@@ -38,35 +43,60 @@ export class World {
     run = () => {
         this.checkCharacterCollisions();
         this.checkBottle();
-        // this.checkBottleCollision();
-    }
+        if (this.throwableObjects.length > 0) {
+            this.checkBottleCollision();
+        }
+    };
 
     // überprüft Charactercollision mit Gegnern
     checkCharacterCollisions() {
         LEVEL1.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.healthbar.setPercentage(ImageHub.bars.health, this.character.energy);
+                this.healthbar.setPercentage(
+                    ImageHub.bars.health,
+                    this.character.energy
+                );
             }
         });
-    };
+    }
 
     checkBottleCollision() {
-            LEVEL1.enemies.forEach((enemy) => {
-                if (this.throwableObjects.isColliding(enemy) || this.y > 180) {
-                    console.log("hit");
-                    // ThrowableObject.splash();
-                }
-    });
+        const bottleRef = this.throwableObjects;
+        for (let i = 0; i < bottleRef.length; i++) {
+            if (bottleRef[i].rY >= 380) {
+                this.splashAnimation(ImageHub.salsaBottle.splash, i);
+            } else
+                LEVEL1.enemies.forEach((enemy) => {
+                    if (bottleRef[i].isColliding(enemy)) {
+                        this.splashAnimation(ImageHub.salsaBottle.splash, i);
+                    }
+                });
+        }
+    }
+
+    splashAnimation(images, i) {
+        if(this.currentImage < images.length) {
+            const path = images[this.currentImage];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+        } else {
+            this.throwableObjects.splice(i, 1);
+        }
     }
 
     // Werfen der Flasche + Cooldown
     checkBottle() {
-        if(Keyboard.SPACE && World.cooldown == false) {
-            const bottle = new ThrowableObject(this.character.x, this.character.y);
+        if (Keyboard.SPACE && World.cooldown == false) {
+            const bottle = new ThrowableObject(
+                this.character.x,
+                this.character.y
+            );
             this.throwableObjects.push(bottle);
             World.cooldown = true;
-            setTimeout(()=>{World.cooldown = false}, 685);
+            setTimeout(() => {
+                World.cooldown = false;
+            }, 685);
         }
     }
 

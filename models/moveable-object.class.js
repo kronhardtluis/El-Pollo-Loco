@@ -7,7 +7,7 @@ export class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    damage = 2;
+    damage = 4;
     lastHit = 0;
     animationStart = false;
     //#endregion
@@ -19,6 +19,7 @@ export class MovableObject extends DrawableObject {
             this.speedY -= this.acceleration;
             if (this.y + this.height > 430) {
                 this.y = 430 - this.height;
+                this.rY = 430 - this.height;
             }
         }
     };

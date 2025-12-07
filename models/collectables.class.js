@@ -1,8 +1,9 @@
 import { DrawableObject } from "./drawable-object.class";
 
-export class Collectables extends DrawableObject{
+export class Collectables extends DrawableObject {
     // #region Attributes
-    bottles;
-    coins;
+    static worldItems = [];
+    worldItemCount = 10;
+    collected;
     // #endregion
 }

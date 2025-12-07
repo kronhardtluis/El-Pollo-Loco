@@ -6,6 +6,21 @@ import { MovableObject } from "./moveable-object.class.js";
 
 export class ThrowableObject extends MovableObject {
     speed = 15;
+    height = 50;
+    width = 40;
+    x;
+    y;
+    rX;
+    rY;
+    rW;
+    rH;
+    offset = {
+        top: 5,
+        right: 5,
+        bottom: 5,
+        left: 5,
+    };
+    world;
 
     constructor(_x, _y) {
         super();
@@ -13,8 +28,7 @@ export class ThrowableObject extends MovableObject {
         this.loadImages(ImageHub.salsaBottle.rotation);
         this.loadImages(ImageHub.salsaBottle.splash);
         this.throw(_x, _y);
-        this.height = 50;
-        this.width = 40;
+        this.getRealFrame();
         IntervalHub.startInterval(this.animate, 1000 / 60);
         IntervalHub.startInterval(this.applyGravity, 30);
     }
@@ -27,12 +41,22 @@ export class ThrowableObject extends MovableObject {
     }
 
     animate = () => {
+            this.rX += 8;
             this.x += 8;
+            console.log("y = ", this.y);
+            console.log("rY = ", this.rX);
     };
 
     splash() {
         this.currentImage = 0;
-        this.jumpAnimation(ImageHub.salsaBottle.splash);
+        this.splashAnimation(ImageHub.salsaBottle.splash);
+    }
+
+    getRealFrame(){
+        this.rX = this.x + this.offset.left;
+        this.rY = this.y + this.offset.top;
+        this.rW = this.width - this.offset.left - this.offset.right;
+        this.rH = this.height - this.offset.top - this.offset.bottom;
     }
 }
 

@@ -25,7 +25,8 @@ export class Character extends MovableObject {
     speed = 25;
     world;
     doingNothing = false;
-    sleeping = false;
+    lastAction = 0;
+    idleDate = 0;
     // #endregion
 
     constructor() {
@@ -49,19 +50,30 @@ export class Character extends MovableObject {
         //     setTimeout(IntervalHub.stopAllIntervals, 370);
         // } else {
         if (Keyboard.RIGHT && this.x < Level.levelEndX + 90) {
-            this.resetIdle();
             this.moveRight(this.speed);
             this.otherDirection = false;
         }
         if (Keyboard.LEFT && this.x > -600) {
-            this.resetIdle();
             this.moveLeft(this.speed);
             this.otherDirection = true;
         }
         if (Keyboard.UP && !this.isAboveGround()) {
-            this.resetIdle();
             this.jump();
         }
+        if (this.anyKey()) {
+            this.resetIdle();
+        }
+        this.determineAnimation();
+        this.idleTimeout();
+        this.world.camera_x = -this.x + 100;
+        // }
+    };
+
+    anyKey() {
+        return Keyboard.UP || Keyboard.LEFT || Keyboard.RIGHT || Keyboard.SPACE;
+    }
+
+    determineAnimation() {
         if (this.isHurt()) {
             this.resetIdle();
             this.playAnimation(ImageHub.character.hurt);
@@ -75,28 +87,36 @@ export class Character extends MovableObject {
         } else if (Keyboard.RIGHT || Keyboard.LEFT) {
             this.playAnimation(ImageHub.character.walk);
         } else {
-            if (!this.doingNothing && !this.sleeping) {
-                this.loadImage(ImageHub.character.idle[0]);
-                setTimeout((this.doingNothing = true), 2000);
-            }
-            if (this.doingNothing && !this.sleeping) {
-                this.playAnimation(ImageHub.character.idle);
-                setTimeout((this.sleeping = true), 3000);
-            }
-            if (this.doingNothing && this.sleeping) {
-                this.playAnimation(ImageHub.character.idleLong);
-            }
+            this.doingNothing = true;
+            this.idleAnimation();
         }
-        this.world.camera_x = -this.x + 100;
-        // }
-    };
-
-    resetIdle() {
-        this.doingNothing = false;
-        this.sleeping = false;
     }
 
-    getRealFrame(){
+    resetIdle() {
+        this.idleDate = 0;
+        this.doingNothing = false;
+    }
+
+    idleTimeout() {
+        if (!this.doingNothing) {
+            this.lastAction = new Date().getTime();
+        } else {
+            let timepassed = new Date().getTime() - this.lastAction;
+            timepassed = timepassed / 1000;
+            this.idleDate = timepassed;
+        }
+    }
+
+    idleAnimation() {
+        if (this.idleDate < 3) {
+            this.playAnimation(ImageHub.character.idle);
+        }
+        if (this.idleDate > 3) {
+            this.playAnimation(ImageHub.character.idleLong);
+        }
+    }
+
+    getRealFrame() {
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;
         this.rW = this.width - this.offset.left - this.offset.right;
