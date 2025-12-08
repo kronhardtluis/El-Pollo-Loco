@@ -51,6 +51,7 @@ export class ThrowableObject extends MovableObject {
     //     this.splashAnimation(ImageHub.salsaBottle.splash);
     // }
 
+    // offset der Hitbox
     getRealFrame(){
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;

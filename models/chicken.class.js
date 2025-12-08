@@ -28,7 +28,7 @@ export class Chicken extends MovableObject {
         this.getRealFrame();
         this.loadImage(ImageHub.chicken.walk[0]);
         this.loadImages(ImageHub.chicken.walk);
-        IntervalHub.startInterval(this.animate, this.speed); //geschwindigkeit und animation verschnellern sich gleichzeitig
+        IntervalHub.startInterval(this.animate, this.speed);            //geschwindigkeit und animation verschnellern sich gleichzeitig
     }
 
     // wird zufällig schnell ausgeführt
@@ -37,6 +37,7 @@ export class Chicken extends MovableObject {
         this.playAnimation(ImageHub.chicken.walk);
     };
 
+    // offset der Hitbox
     getRealFrame(){
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;

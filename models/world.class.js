@@ -50,6 +50,7 @@ export class World {
         }
     };
 
+    //#region Collisions
     // überprüft Charactercollision mit Gegnern
     checkCharacterCollisions() {
         LEVEL1.enemies.forEach((enemy) => {
@@ -86,6 +87,7 @@ export class World {
             this.throwableObjects.splice(i, 1);
         }
     }
+    //#endregion
 
     // Werfen der Flasche + Cooldown
     checkBottle() {

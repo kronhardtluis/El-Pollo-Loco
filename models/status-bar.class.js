@@ -17,6 +17,7 @@ export class Statusbar extends DrawableObject {
         Statusbar.count++;
     }
 
+    // setzt das entsprechende Bild ein
     setPercentage(images, _percentage) {
         this.percentage = _percentage;
         this.loadImage(images[this.resolveImageIndex()]);

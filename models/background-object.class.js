@@ -1,5 +1,6 @@
 import { MovableObject } from "./moveable-object.class.js";
 
+// Gerüst wird in level1 hinzugefügt
 export class Backgroundobject extends MovableObject {
     //#region Attributes
     width = 720;

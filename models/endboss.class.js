@@ -32,9 +32,10 @@ export class Endboss extends MovableObject {
     }
 
     animate = () => {
-        this.playAnimation(ImageHub.boss.alert);
+        this.playAnimation(ImageHub.boss.alert);                    // muss noch alles gemacht werden
     };
 
+    // offset der Hitbox
     getRealFrame(){
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;

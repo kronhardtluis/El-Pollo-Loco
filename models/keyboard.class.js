@@ -6,6 +6,7 @@ export class Keyboard {
     static SPACE = false;
     //#endregion
 
+    // aktivieren und zurücksetzen bei Tastendruck
     static setControls() {
         window.addEventListener("keydown", (e) => {
             if (e.key == "ArrowUp" || e.key == "w") {

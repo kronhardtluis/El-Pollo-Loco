@@ -1,5 +1,6 @@
 import { DrawableObject } from "./drawable-object.class.js";
 
+// Superclass von: Backgroundobject, Character, Chicken, Cloud, Endboss und Throwable
 export class MovableObject extends DrawableObject {
     //#region Attributes
     speed = 0.15;
@@ -12,6 +13,7 @@ export class MovableObject extends DrawableObject {
     animationStart = false;
     //#endregion
 
+    // alles mit Gravity fällt bis auf den Boden
     applyGravity = () => {
         if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;

@@ -45,10 +45,11 @@ export class Character extends MovableObject {
         IntervalHub.startInterval(this.animate, 1000 / 12);
     }
 
+    //#region animation
     // tot-abfrage + Spring-/Laufanimation
     animate = () => {
         // if (this.isDead()) {
-        //     this.playAnimation(ImageHub.character.dead);
+            // this.playAnimation(ImageHub.character.dead);                 // stoppt alle Intervalle wenn tot
         //     setTimeout(IntervalHub.stopAllIntervals, 370);
         // } else {
         if (Keyboard.RIGHT && this.x < Level.levelEndX + 90) {
@@ -75,6 +76,22 @@ export class Character extends MovableObject {
         return Keyboard.UP || Keyboard.LEFT || Keyboard.RIGHT || Keyboard.SPACE;
     }
 
+    resetIdle() {
+        this.idleDate = 0;
+        this.doingNothing = false;
+    }
+
+    idleTimeout() {
+        if (!this.doingNothing) {
+            this.lastAction = new Date().getTime();
+        } else {
+            let timepassed = new Date().getTime() - this.lastAction;
+            timepassed = timepassed / 1000;
+            this.idleDate = timepassed;
+        }
+    }
+
+    // Bestimmen der jeweiligen Animation
     determineAnimation() {
         if (this.isHurt()) {
             this.resetIdle();
@@ -94,21 +111,6 @@ export class Character extends MovableObject {
         }
     }
 
-    resetIdle() {
-        this.idleDate = 0;
-        this.doingNothing = false;
-    }
-
-    idleTimeout() {
-        if (!this.doingNothing) {
-            this.lastAction = new Date().getTime();
-        } else {
-            let timepassed = new Date().getTime() - this.lastAction;
-            timepassed = timepassed / 1000;
-            this.idleDate = timepassed;
-        }
-    }
-
     idleAnimation() {
         if (this.idleDate < 3) {
             this.playAnimation(ImageHub.character.idle);
@@ -117,7 +119,9 @@ export class Character extends MovableObject {
             this.playAnimation(ImageHub.character.idleLong);
         }
     }
+    //#endregion
 
+    // offset der Hitbox
     getRealFrame() {
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;
