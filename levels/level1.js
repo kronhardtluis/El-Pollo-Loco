@@ -8,47 +8,26 @@ import { Level } from "../models/level.class.js";
 //#endregion
 
 export const LEVEL1 = new Level({
-    
     // festlegen der in diesem Level vorkommenden Strukturen
     _enemies: [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Endboss()],
     _clouds: [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()],
-    _backgroundObjects: [
-        new Backgroundobject(ImageHub.background.images[4], -720),
-        new Backgroundobject(ImageHub.background.images[5], -720),
-        new Backgroundobject(ImageHub.background.images[6], -720),
-        new Backgroundobject(ImageHub.background.images[7], -720),
-        new Backgroundobject(ImageHub.background.images[0], 0),
-        new Backgroundobject(ImageHub.background.images[1], 0),
-        new Backgroundobject(ImageHub.background.images[2], 0),
-        new Backgroundobject(ImageHub.background.images[3], 0),
-        new Backgroundobject(ImageHub.background.images[4], 720),
-        new Backgroundobject(ImageHub.background.images[5], 720),
-        new Backgroundobject(ImageHub.background.images[6], 720),
-        new Backgroundobject(ImageHub.background.images[7], 720),
-        new Backgroundobject(ImageHub.background.images[0], 720 * 2),
-        new Backgroundobject(ImageHub.background.images[1], 720 * 2),
-        new Backgroundobject(ImageHub.background.images[2], 720 * 2),
-        new Backgroundobject(ImageHub.background.images[3], 720 * 2),
-        new Backgroundobject(ImageHub.background.images[4], 720 * 3),
-        new Backgroundobject(ImageHub.background.images[5], 720 * 3),
-        new Backgroundobject(ImageHub.background.images[6], 720 * 3),
-        new Backgroundobject(ImageHub.background.images[7], 720 * 3),
-    ],
-}
-);
+    _backgroundObjects: addBackgroundImages(1),
+    _levelEndX: calcLevelEnd(1),
+},);
 
-// addBackgroundImages(5)
-// function addBackgroundImages(times) {
-//     for (let t = 0; t < times; t += 2) {
-//         LEVEL1.backgroundObjects.push(
-//             new Backgroundobject(ImageHub.background.images[0], 720 * t),
-//             new Backgroundobject(ImageHub.background.images[1], 720 * t),
-//             new Backgroundobject(ImageHub.background.images[2], 720 * t),
-//             new Backgroundobject(ImageHub.background.images[3], 720 * t),
-//             new Backgroundobject(ImageHub.background.images[4], 720 * t++),
-//             new Backgroundobject(ImageHub.background.images[5], 720 * t++),
-//             new Backgroundobject(ImageHub.background.images[6], 720 * t++),
-//             new Backgroundobject(ImageHub.background.images[7], 720 * t++)
-//         );
-//     }
-// }
+    function addBackgroundImages(level) {
+        const objects = [];
+        for (let t = -2; t < level * 10; t += 2) {                                          //level * x setzt die länge der Level
+            objects.push(
+                ...ImageHub.background.images.slice(0, 8).map((img, i) => 
+                    new Backgroundobject(img, 720 * (t + (i < 4 ? 0 : 1)))                  //entweder 720*0 wenn i<4 oder 720*1 wenn i>4 als offset
+                )
+            );
+        }
+        return objects;
+    }
+
+    function calcLevelEnd(level) {
+        const levelWidth = 9.5 * 720 * level;
+        return levelWidth;
+    }

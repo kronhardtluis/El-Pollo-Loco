@@ -1,7 +1,6 @@
 //#region Imports
 import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
-import { Level } from "./level.class.js";
 import { MovableObject } from "./moveable-object.class.js";
 //#endregion
 
@@ -9,7 +8,8 @@ export class Endboss extends MovableObject {
     //#region Attributes
     width = 400;
     height = 450;
-    x = Level.levelEndX;
+    world;
+    x = 0;
     y = 5;
     rX;
     rY;
@@ -32,8 +32,13 @@ export class Endboss extends MovableObject {
     }
 
     animate = () => {
+        // this.setBossX();
         this.playAnimation(ImageHub.boss.alert);                    // muss noch alles gemacht werden
     };
+
+    // setBossX() {
+        // this.x = this.world.levelEndX;               //funktioniert so nicht
+    // }
 
     // offset der Hitbox
     getRealFrame(){
