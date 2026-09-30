@@ -101,7 +101,7 @@ export class MovableObject extends DrawableObject {
     }
 
     // setzt speedY auf 30
-    jump() {
-        this.speedY = 30;
+    jump(strength) {
+        this.speedY = strength;
     }
 }
