@@ -2,7 +2,6 @@
 import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { Keyboard } from "./keyboard.class.js";
-import { Level } from "./level.class.js";
 import { MovableObject } from "./moveable-object.class.js";
 //#endregion
 
@@ -24,11 +23,13 @@ export class Character extends MovableObject {
         bottom: 30,
         left: 15,
     };
-    speed = 25;
+    speed = 5;
+    jumpStrength = 25;
     world;
     doingNothing = false;
     lastAction = 0;
     idleDate = 0;
+    frameCount = 0;
     // #endregion
 
     constructor() {
@@ -42,17 +43,17 @@ export class Character extends MovableObject {
         this.loadImages(ImageHub.character.dead);
         this.getRealFrame();
         IntervalHub.startInterval(this.applyGravity, 30);
-        IntervalHub.startInterval(this.animate, 1000 / 12);
+        IntervalHub.startInterval(this.animate, 1000 / 60);
     }
 
     //#region animation
     // tot-abfrage + Spring-/Laufanimation
     animate = () => {
         // if (this.isDead()) {
-            // this.playAnimation(ImageHub.character.dead);                 // stoppt alle Intervalle wenn tot
+        // this.playAnimation(ImageHub.character.dead);                 // stoppt alle Intervalle wenn tot
         //     setTimeout(IntervalHub.stopAllIntervals, 370);
         // } else {
-        if (Keyboard.RIGHT && this.x < Level.levelEndX + 90) {
+        if (Keyboard.RIGHT && this.x < this.world.level.levelEndX + 90) {
             this.moveRight(this.speed);
             this.otherDirection = false;
         }
@@ -61,7 +62,7 @@ export class Character extends MovableObject {
             this.otherDirection = true;
         }
         if (Keyboard.UP && !this.isAboveGround()) {
-            this.jump();
+            this.jump(this.jumpStrength);
         }
         if (this.anyKey()) {
             this.resetIdle();
@@ -93,21 +94,26 @@ export class Character extends MovableObject {
 
     // Bestimmen der jeweiligen Animation
     determineAnimation() {
-        if (this.isHurt()) {
-            this.resetIdle();
-            this.playAnimation(ImageHub.character.hurt);
-        } else if (this.speedY > 0) {
-            this.jumpAnimation(ImageHub.character.jump, 4);
-        } else if (this.speedY < 0) {
-            this.jumpAnimation(ImageHub.character.jump, 8);
-            if (!this.isAboveGround()) {
-                this.speedY = 0;
+        if (this.frameCount % 6 === 0) {
+            this.frameCount = 1;
+            if (this.isHurt()) {
+                this.resetIdle();
+                this.playAnimation(ImageHub.character.hurt);
+            } else if (this.speedY > 0) {
+                this.jumpAnimation(ImageHub.character.jump, 4);
+            } else if (this.speedY < 0) {
+                this.jumpAnimation(ImageHub.character.jump, 8);
+                if (!this.isAboveGround()) {
+                    this.speedY = 0;
+                }
+            } else if (Keyboard.RIGHT || Keyboard.LEFT) {
+                this.playAnimation(ImageHub.character.walk);
+            } else {
+                this.doingNothing = true;
+                this.idleAnimation();
             }
-        } else if (Keyboard.RIGHT || Keyboard.LEFT) {
-            this.playAnimation(ImageHub.character.walk);
         } else {
-            this.doingNothing = true;
-            this.idleAnimation();
+            this.frameCount++;
         }
     }
 
