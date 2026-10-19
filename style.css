@@ -20,4 +20,5 @@ body {
 
 canvas {
     background: black;
+    max-width: 100%;
 }
