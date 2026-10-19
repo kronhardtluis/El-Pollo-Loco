@@ -39,6 +39,7 @@ export class World {
 
     setWorld() {
         this.character.world = this; // fügt dem Attribut world der instanzierten Klasse Character die Instanz von der erstellten Welt hinzu
+        this.level.enemies.forEach(enemy => enemy.world = this);
     }
 
     // Sammlung der dauerhaften Checks
