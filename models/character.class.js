@@ -25,7 +25,6 @@ export class Character extends MovableObject {
     };
     speed = 5;
     jumpStrength = 25;
-    world;
     doingNothing = false;
     lastAction = 0;
     idleDate = 0;
