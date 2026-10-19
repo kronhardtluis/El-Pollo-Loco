@@ -21,6 +21,7 @@ export class Chicken extends MovableObject {
         left: 5,
     };
     speed = 50 + Math.random() * 50;
+    jumpStrength = this.getJStr();
     //#endregion
 
     constructor() {
@@ -28,13 +29,17 @@ export class Chicken extends MovableObject {
         this.getRealFrame();
         this.loadImage(ImageHub.chicken.walk[0]);
         this.loadImages(ImageHub.chicken.walk);
-        IntervalHub.startInterval(this.animate, this.speed);            //geschwindigkeit und animation verschnellern sich gleichzeitig
+        IntervalHub.startInterval(this.applyGravity, 43);               //Fallgeschwindigkeit
+        IntervalHub.startInterval(this.animate, this.speed);            //Geschwindigkeit und Animation verschnellern sich gleichzeitig
     }
 
     // wird zufällig schnell ausgeführt
     animate = () => {
         this.moveLeft(3);
         this.playAnimation(ImageHub.chicken.walk);
+        if(this.y == 350 && this.jumpStrength != 0) {
+            this.jump(this.jumpStrength);
+        }
     };
 
     // offset der Hitbox
@@ -43,5 +48,14 @@ export class Chicken extends MovableObject {
         this.rY = this.y + this.offset.top;
         this.rW = this.width - this.offset.left - this.offset.right;
         this.rH = this.height - this.offset.top - this.offset.bottom;
+    }
+
+    getJStr() {
+        let jumping = Math.random();
+        if (jumping < 0.3) {
+            return 0;
+        } else {
+            return jumping * 30;
+        }
     }
 }
