@@ -8,8 +8,7 @@ export class Endboss extends MovableObject {
     //#region Attributes
     width = 400;
     height = 450;
-    world;
-    x = 0;
+    x = 720;
     y = 5;
     rX;
     rY;
@@ -21,6 +20,8 @@ export class Endboss extends MovableObject {
         bottom: 120,
         left: 80,
     };
+    bossSpawned = false;
+    frameCount = 0;
     //#endregion
 
     constructor() {
@@ -28,20 +29,34 @@ export class Endboss extends MovableObject {
         this.getRealFrame();
         this.loadImage(ImageHub.boss.alert[0]);
         this.loadImages(ImageHub.boss.alert);
-        IntervalHub.startInterval(this.animate, 100);
+        IntervalHub.startInterval(this.animate, 1000/60);
     }
 
     animate = () => {
-        // this.setBossX();
-        this.playAnimation(ImageHub.boss.alert);                    // muss noch alles gemacht werden
+        this.setBossX();
+        this.determineAnimation();                // muss noch alles gemacht werden
+        this.moveLeft(0);
     };
 
-    // setBossX() {
-        // this.x = this.world.levelEndX;               //funktioniert so nicht
-    // }
+    determineAnimation() {
+        if (this.frameCount % 8 === 0) {
+            this.frameCount = 1;
+            this.playAnimation(ImageHub.boss.alert);
+        } else {
+            this.frameCount++;
+        }
+    }
+
+    setBossX() {
+        if (this.world && this.bossSpawned === false) {
+            this.x = this.world.level.levelEndX;
+            this.bossSpawned = true;
+            this.rX = this.x + this.offset.left;
+        }
+    }
 
     // offset der Hitbox
-    getRealFrame(){
+    getRealFrame() {
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;
         this.rW = this.width - this.offset.left - this.offset.right;
