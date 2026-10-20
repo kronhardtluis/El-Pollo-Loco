@@ -13,6 +13,7 @@ export const LEVEL1 = new Level({
     _clouds: [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()],
     _backgroundObjects: addBackgroundImages(1),
     _levelEndX: calcLevelEnd(1),
+    _level: 1,
 },);
 
     function addBackgroundImages(level) {
@@ -28,6 +29,6 @@ export const LEVEL1 = new Level({
     }
 
     function calcLevelEnd(level) {
-        const levelWidth = 9.5 * 720 * level;
+        const levelWidth = 9 * 720 * level - 100;
         return levelWidth;
     }
