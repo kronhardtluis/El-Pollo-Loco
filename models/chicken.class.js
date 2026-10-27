@@ -6,7 +6,7 @@ import { MovableObject } from "./moveable-object.class.js";
 
 export class Chicken extends MovableObject {
     //#region Attributes
-    x = 500 + Math.random() * 700;
+    x = 500;
     y = 345;
     height = 80;
     width = 80;
@@ -23,6 +23,7 @@ export class Chicken extends MovableObject {
     speed = 10 + Math.random() * 15;
     jumpStrength = this.getJStr();
     frameCount = 0;
+    xSet = false;
     //#endregion
 
     constructor() {
@@ -37,10 +38,22 @@ export class Chicken extends MovableObject {
     // wird zufällig schnell ausgeführt
     animate = () => {
         this.moveLeft(1);
+        if (!this.xSet) this.setX();
+        if (this.x < -750) {
+            this.x = this.world.level.levelEndX + 750;
+            this.rX = this.world.level.levelEndX + 750;
+        };
         this.determineAnimation();
         if(this.y == 350 && this.jumpStrength != 0) {
             this.jump(this.jumpStrength);
         }
+    }
+
+    setX() {
+        let calcX = 500 + Math.random() * this.world.level.levelEndX;
+        this.x = calcX;
+        this.rX = calcX;
+        this.xSet = true;
     }
 
     determineAnimation() {
