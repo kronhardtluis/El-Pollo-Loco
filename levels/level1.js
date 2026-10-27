@@ -9,7 +9,9 @@ import { Level } from "../models/level.class.js";
 
 export const LEVEL1 = new Level({
     // festlegen der in diesem Level vorkommenden Strukturen
-    _enemies: [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Endboss()],
+    _enemies: [
+        ...Array.from({ length: 20 }, () => new Chicken())
+        , new Endboss()],
     _clouds: [new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud(), new Cloud()],
     _backgroundObjects: addBackgroundImages(1),
     _levelEndX: calcLevelEnd(1),
