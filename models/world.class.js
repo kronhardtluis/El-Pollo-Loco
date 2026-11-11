@@ -3,6 +3,7 @@ import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { LEVEL1 } from "../levels/level1.js";
 import { Character } from "./character.class.js";
+import { Chicken } from "./chicken.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { Statusbar } from "./status-bar.class.js";
 import { ThrowableObject } from "./throwable-object.class.js";
@@ -34,7 +35,7 @@ export class World {
         this.canvas = canvas;
         this.draw();
         this.setWorld();
-        IntervalHub.startInterval(this.run, 100);
+        IntervalHub.startInterval(this.run, 1000/60);
     }
 
     setWorld() {
@@ -54,8 +55,11 @@ export class World {
     //#region Collisions
     // überprüft Charactercollision mit Gegnern
     checkCharacterCollisions() {
-        LEVEL1.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+        LEVEL1.enemies.forEach((enemy, index) => {
+            if (this.character.jumpOnEnemy(enemy) && this.character.speedY < 0 && enemy instanceof Chicken) {
+                this.character.speedY = (enemy.speedY + this.character.jumpStrength - this.character.speedY) / 2;
+                LEVEL1.enemies.splice(index, 1);
+            }else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.hit();
                 this.healthbar.setPercentage(
                     ImageHub.bars.health,
