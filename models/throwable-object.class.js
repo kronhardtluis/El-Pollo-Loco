@@ -27,7 +27,6 @@ export class ThrowableObject extends MovableObject {
         this.loadImages(ImageHub.salsaBottle.rotation);  // wie wird richtig animiert?
         this.loadImages(ImageHub.salsaBottle.splash);  // muss das hier hin?
         this.throw(_x, _y);
-        this.getRealFrame();
         IntervalHub.startInterval(this.animate, 1000 / 60);
         IntervalHub.startInterval(this.applyGravity, 30);
     }
@@ -41,8 +40,9 @@ export class ThrowableObject extends MovableObject {
 
     // bewegung
     animate = () => {
-            this.rX += 8;
-            this.x += 8;
+        this.rX += 8;
+        this.x += 8;
+        this.getRealFrame();
     };
 
     // vielleicht muss splash hier hin

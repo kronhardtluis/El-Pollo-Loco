@@ -26,7 +26,6 @@ export class Endboss extends MovableObject {
 
     constructor() {
         super();
-        this.getRealFrame();
         this.loadImage(ImageHub.boss.alert[0]);
         this.loadImages(ImageHub.boss.alert);
         IntervalHub.startInterval(this.animate, 1000/60);
@@ -36,6 +35,7 @@ export class Endboss extends MovableObject {
         this.setBossX();
         this.determineAnimation();                // muss noch alles gemacht werden
         this.moveLeft(0);
+        this.getRealFrame();
     };
 
     determineAnimation() {

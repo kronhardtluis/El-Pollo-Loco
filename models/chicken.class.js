@@ -28,7 +28,6 @@ export class Chicken extends MovableObject {
 
     constructor() {
         super();
-        this.getRealFrame();
         this.loadImage(ImageHub.chicken.walk[0]);
         this.loadImages(ImageHub.chicken.walk);
         IntervalHub.startInterval(this.applyGravity, 43);               //Fallgeschwindigkeit
@@ -47,6 +46,7 @@ export class Chicken extends MovableObject {
         if(this.y == 350 && this.jumpStrength != 0) {
             this.jump(this.jumpStrength);
         }
+        this.getRealFrame();
     }
 
     setX() {
