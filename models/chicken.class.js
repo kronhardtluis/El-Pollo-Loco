@@ -21,33 +21,42 @@ export class Chicken extends MovableObject {
         left: 5,
     };
     speed = 10 + Math.random() * 15;
+    moveSpeed = 1;
     jumpStrength = this.getJStr();
     frameCount = 0;
     xSet = false;
+    isDead = false;
+    slow = 0;
     //#endregion
 
     constructor() {
         super();
         this.loadImage(ImageHub.chicken.walk[0]);
         this.loadImages(ImageHub.chicken.walk);
-        IntervalHub.startInterval(this.applyGravity, 43);               //Fallgeschwindigkeit
-        IntervalHub.startInterval(this.animate, this.speed);            //Geschwindigkeit und Animation verschnellern sich gleichzeitig
+        this.loadImages(ImageHub.chicken.dead);
+        IntervalHub.startInterval(this.applyGravity, 43); //Fallgeschwindigkeit
+        IntervalHub.startInterval(this.animate, this.speed); //Geschwindigkeit und Animation verschnellern sich gleichzeitig
     }
 
     // wird zufällig schnell ausgeführt
     animate = () => {
-        this.moveLeft(1);
-        if (!this.xSet) this.setX();
-        if (this.x < -750) {
-            this.x = this.world.level.levelEndX + 750;
-            this.rX = this.world.level.levelEndX + 750;
-        };
-        this.determineAnimation();
-        if(this.y == 350 && this.jumpStrength != 0) {
-            this.jump(this.jumpStrength);
+        this.moveLeft(this.moveSpeed);
+        if (this.isDead) {
+            this.residualSpeed();
+            this.deadAnimation();
+        } else {
+            if (!this.xSet) this.setX();
+            if (this.x < -750) {
+                this.x = this.world.level.levelEndX + 750;
+                this.rX = this.world.level.levelEndX + 750;
+            }
+            this.determineAnimation();
+            if (this.y == 350 && this.jumpStrength != 0) {
+                this.jump(this.jumpStrength);
+            }
+            this.getRealFrame();
         }
-        this.getRealFrame();
-    }
+    };
 
     setX() {
         let calcX = 500 + Math.random() * this.world.level.levelEndX;
@@ -66,7 +75,7 @@ export class Chicken extends MovableObject {
     }
 
     // offset der Hitbox
-    getRealFrame(){
+    getRealFrame() {
         this.rX = this.x + this.offset.left;
         this.rY = this.y + this.offset.top;
         this.rW = this.width - this.offset.left - this.offset.right;
@@ -80,5 +89,30 @@ export class Chicken extends MovableObject {
         } else {
             return jumping * 30;
         }
+    }
+
+    die() {
+        this.isDead = true;
+        this.jumpStrength = 0;
+    }
+
+    residualSpeed() {
+        if (this.speedY > 0) this.speedY = 0;
+        if (this.y >= 430 - this.height) {
+            if (this.moveSpeed > 0.1) {
+                this.moveSpeed -= this.slow;
+                this.slow += 0.002;
+            } else {
+                this.moveSpeed = 0;
+            }
+        }
+    }
+
+    deadAnimation() {
+        if(this.moveSpeed == 0){
+        setTimeout(()=> {
+            this.loadImage(ImageHub.chicken.dead[1])
+        }, 300)
+        } else this.loadImage(ImageHub.chicken.dead[0]);
     }
 }

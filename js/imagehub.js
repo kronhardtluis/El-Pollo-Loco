@@ -65,7 +65,10 @@ export class ImageHub {
             "./img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
             "./img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
         ],
-        dead: "./img/3_enemies_chicken/chicken_small/2_dead/dead.png",
+        dead: [
+            "./img/3_enemies_chicken/chicken_normal/2_dead/dead.png",
+            "./img/3_enemies_chicken/chicken_normal/2_dead/cooked.png",
+        ],
     };
 
     static smallChicken = {
@@ -74,7 +77,10 @@ export class ImageHub {
             "./img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
             "./img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
         ],
-        dead: "./img/3_enemies_chicken/chicken_small/2_dead/dead.png",
+        dead: [
+        "./img/3_enemies_chicken/chicken_small/2_dead/dead.png",
+        "./img/3_enemies_chicken/chicken_small/2_dead/nugget.png",
+        ]
     };
 
     static boss = {

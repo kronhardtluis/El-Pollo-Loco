@@ -55,11 +55,11 @@ export class World {
     //#region Collisions
     // überprüft Charactercollision mit Gegnern
     checkCharacterCollisions() {
-        LEVEL1.enemies.forEach((enemy, index) => {
-            if (this.character.jumpOnEnemy(enemy) && this.character.speedY < 0 && enemy instanceof Chicken) {
+        LEVEL1.enemies.forEach((enemy) => {
+            if (this.character.jumpOnEnemy(enemy) && this.character.speedY < 0 && enemy instanceof Chicken && !enemy.isDead) {
                 this.character.speedY = (enemy.speedY + this.character.jumpStrength - this.character.speedY) / 2;
-                LEVEL1.enemies.splice(index, 1);
-            }else if (this.character.isColliding(enemy) && !this.character.isHurt()) {
+                enemy.die();
+            }else if (this.character.isColliding(enemy) && !this.character.isHurt() && !enemy.isDead) {
                 this.character.hit();
                 this.healthbar.setPercentage(
                     ImageHub.bars.health,
@@ -137,7 +137,7 @@ export class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

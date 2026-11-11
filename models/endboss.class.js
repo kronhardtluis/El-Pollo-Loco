@@ -22,6 +22,7 @@ export class Endboss extends MovableObject {
     };
     bossSpawned = false;
     frameCount = 0;
+    isDead = false;
     //#endregion
 
     constructor() {
