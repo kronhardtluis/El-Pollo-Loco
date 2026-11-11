@@ -19,9 +19,9 @@ export class Character extends MovableObject {
     rH;
     offset = {
         top: 120,
-        right: 27,
+        right: 30,
         bottom: 30,
-        left: 15,
+        left: 20,
     };
     speed = 5;
     jumpStrength = 25;
@@ -40,7 +40,6 @@ export class Character extends MovableObject {
         this.loadImages(ImageHub.character.jump);
         this.loadImages(ImageHub.character.hurt);
         this.loadImages(ImageHub.character.dead);
-        this.getRealFrame();
         IntervalHub.startInterval(this.applyGravity, 30);
         IntervalHub.startInterval(this.animate, 1000 / 60);
     }
@@ -66,6 +65,7 @@ export class Character extends MovableObject {
         if (this.anyKey()) {
             this.resetIdle();
         }
+        this.getRealFrame();
         this.determineAnimation();
         this.idleTimeout();
         this.world.camera_x = -this.x + 100;
