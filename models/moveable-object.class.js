@@ -8,7 +8,7 @@ export class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    damage = 4;
+    damage = 20;
     lastHit = 0;
     animationStart = false;
     //#endregion
