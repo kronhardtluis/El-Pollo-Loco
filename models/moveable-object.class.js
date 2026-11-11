@@ -39,6 +39,15 @@ export class MovableObject extends DrawableObject {
             this.rY < mo.rY + mo.rH
         );
     }
+    
+    jumpOnEnemy(mo) {
+        return (
+            this.rX + this.rW > mo.rX &&
+            this.rY + this.rH > mo.rY &&
+            this.rX < mo.rX + mo.rW &&
+            this.rY + this.rH / 5 < mo.rY + mo.rH
+        );
+    }
 
     //#region Character-Schaden
     hit() {
