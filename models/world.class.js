@@ -35,12 +35,12 @@ export class World {
         this.canvas = canvas;
         this.draw();
         this.setWorld();
-        IntervalHub.startInterval(this.run, 1000/60);
+        IntervalHub.startInterval(this.run, 1000 / 60);
     }
 
     setWorld() {
         this.character.world = this; // fügt dem Attribut world der instanzierten Klasse Character die Instanz von der erstellten Welt hinzu
-        this.level.enemies.forEach(enemy => enemy.world = this);
+        this.level.enemies.forEach((enemy) => (enemy.world = this));
     }
 
     // Sammlung der dauerhaften Checks
@@ -56,40 +56,59 @@ export class World {
     // überprüft Charactercollision mit Gegnern
     checkCharacterCollisions() {
         LEVEL1.enemies.forEach((enemy) => {
-            if (this.character.jumpOnEnemy(enemy) && this.character.speedY < 0 && enemy instanceof Chicken && !enemy.isDead) {
-                this.character.speedY = (enemy.speedY + this.character.jumpStrength - this.character.speedY) / 2;
+            if (this.jumpOnAliveChicken(enemy)) {
+                this.character.speedY =
+                    (enemy.speedY +
+                        this.character.jumpStrength -
+                        this.character.speedY) /
+                    2;
                 enemy.die();
-            }else if (this.character.isColliding(enemy) && !this.character.isHurt() && !enemy.isDead) {
+            } else if (this.hitByAliveChicken(enemy)) {
                 this.character.hit();
                 this.healthbar.setPercentage(
                     ImageHub.bars.health,
-                    this.character.energy
+                    this.character.energy,
                 );
             }
         });
     }
 
-    checkBottleCollision() {
-        const bottleRef = this.throwableObjects;
-        for (let i = 0; i < bottleRef.length; i++) {
-            if (bottleRef[i].rY >= 380) {
-                this.splashAnimation(ImageHub.salsaBottle.splash, i);
-            } else
-                LEVEL1.enemies.forEach((enemy) => {
-                    if (bottleRef[i].isColliding(enemy)) {
-                        this.splashAnimation(ImageHub.salsaBottle.splash, i);
-                    }
-                });
-        }
+    jumpOnAliveChicken(enemy) {
+        return (
+            this.character.jumpOnEnemy(enemy) &&
+            this.character.speedY < 0 &&
+            enemy instanceof Chicken &&
+            !enemy.isDead
+        );
     }
 
-    splashAnimation(images, i) {
-        if(this.currentImage < images.length) {
-            const path = images[this.currentImage];
-            this.img = this.imageCache[path];
-            this.currentImage++;
-        } else {
-            this.throwableObjects.splice(i, 1);
+    hitByAliveChicken(enemy) {
+        return (
+            this.character.isColliding(enemy) &&
+            !this.character.isHurt() &&
+            !enemy.isDead
+        );
+    }
+
+    checkBottleCollision() {
+        for (let i = this.throwableObjects.length - 1; i >= 0; i--) {
+            let bottleRef = this.throwableObjects[i];
+            let hitEnemy = false;
+            LEVEL1.enemies.forEach((enemy) => {
+                if (bottleRef.isColliding(enemy) && !enemy.isDead) {
+                    hitEnemy = true;
+                    if (enemy instanceof Chicken) enemy.die();
+                }
+            });
+            if (bottleRef.isSplashing) {
+                bottleRef.splashAnimation(this.throwableObjects, i);
+            } else {
+                if (bottleRef.y >= 380 || hitEnemy) {
+                    bottleRef.isSplashing = true;
+                    bottleRef.currentImage = 0;
+                    bottleRef.frameCount = 0;
+                }
+            }
         }
     }
     //#endregion
@@ -99,13 +118,15 @@ export class World {
         if (Keyboard.SPACE && World.cooldown == false) {
             const bottle = new ThrowableObject(
                 this.character.x,
-                this.character.y
+                this.character.y,
+                this.character.otherDirection,
+                this.character.throwStrength,
             );
             this.throwableObjects.push(bottle);
             World.cooldown = true;
             setTimeout(() => {
                 World.cooldown = false;
-            }, 343);
+            }, 1000 / 3);
         }
     }
 
@@ -137,7 +158,7 @@ export class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
+        mo.drawFrame(this.ctx);
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -155,7 +176,7 @@ export class World {
     // spiegelt das Bild wieder zurück
     flipImageBack(mo) {
         mo.x = mo.x * -1;
-        mo.rX = mo.rX * -1; // am Ende löschen
+        // mo.rX = mo.rX * -1; // am Ende löschen
         this.ctx.restore();
     }
     // #endregion
