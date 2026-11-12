@@ -25,6 +25,7 @@ export class Character extends MovableObject {
     };
     speed = 5;
     jumpStrength = 25;
+    throwStrength = 0;
     doingNothing = false;
     lastAction = 0;
     idleDate = 0;
@@ -47,9 +48,9 @@ export class Character extends MovableObject {
     //#region animation
     // tot-abfrage + Spring-/Laufanimation
     animate = () => {
-        // if (this.isDead()) {
-        // this.playAnimation(ImageHub.character.dead);                 // stoppt alle Intervalle wenn tot
-        //     setTimeout(IntervalHub.stopAllIntervals, 370);
+        // if (this.energy == 0) {
+        // IntervalHub.stopAllIntervals();
+        // IntervalHub.startInterval(this.playAnimation(ImageHub.character.dead), 100);                 // stoppt alle Intervalle wenn tot
         // } else {
         if (Keyboard.RIGHT && this.x < this.world.level.levelEndX + 90) {
             this.moveRight(this.speed);
