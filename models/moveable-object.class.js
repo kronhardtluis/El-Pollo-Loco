@@ -65,11 +65,6 @@ export class MovableObject extends DrawableObject {
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
-
-    // returnt energy == 0
-    isDead() {
-        return this.energy == 0;
-    }
     //#endregion
 
     playAnimation(images) {
