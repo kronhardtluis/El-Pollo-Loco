@@ -158,7 +158,7 @@ export class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        mo.drawFrame(this.ctx); // löschen
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -176,7 +176,7 @@ export class World {
     // spiegelt das Bild wieder zurück
     flipImageBack(mo) {
         mo.x = mo.x * -1;
-        // mo.rX = mo.rX * -1; // am Ende löschen
+        mo.rX = mo.rX * -1; // am Ende löschen
         this.ctx.restore();
     }
     // #endregion
