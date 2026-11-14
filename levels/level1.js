@@ -29,9 +29,14 @@ export const LEVEL1 = new Level({
         }
         const startBlockImage = new Backgroundobject(ImageHub.background.start, -820);
         startBlockImage.width = 380;
-        startBlockImage.height = 240;
-        startBlockImage.y = 200;
+        startBlockImage.height = 220;
+        startBlockImage.y = 213;
         objects.push(startBlockImage);
+        const endBlockImage = new Backgroundobject(ImageHub.background.end, calcLevelEnd(level) + 80);
+        endBlockImage.width = 720;
+        endBlockImage.height = 220;
+        endBlockImage.y = 210;
+        objects.push(endBlockImage);
         return objects;
     }
 
