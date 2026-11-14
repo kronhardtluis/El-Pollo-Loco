@@ -27,6 +27,11 @@ export const LEVEL1 = new Level({
                 )
             );
         }
+        const startBlockImage = new Backgroundobject(ImageHub.background.start, -820);
+        startBlockImage.width = 380;
+        startBlockImage.height = 240;
+        startBlockImage.y = 200;
+        objects.push(startBlockImage);
         return objects;
     }
 
