@@ -78,9 +78,9 @@ export class ImageHub {
             "./img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
         ],
         dead: [
-        "./img/3_enemies_chicken/chicken_small/2_dead/dead.png",
-        "./img/3_enemies_chicken/chicken_small/2_dead/nugget.png",
-        ]
+            "./img/3_enemies_chicken/chicken_small/2_dead/dead.png",
+            "./img/3_enemies_chicken/chicken_small/2_dead/nugget.png",
+        ],
     };
 
     static boss = {
@@ -139,6 +139,14 @@ export class ImageHub {
         ],
     };
 
+    static collectables = {
+        salsaBottle: [
+            "./img/6_salsa_bottle/1_salsa_bottle_on_ground.png",
+            "./img/6_salsa_bottle/2_salsa_bottle_on_ground.png",
+        ],
+        coin: "./img/8_coin/coin_2.png",
+    };
+
     static background = {
         images: [
             "./img/5_background/layers/air.png",
@@ -150,6 +158,8 @@ export class ImageHub {
             "./img/5_background/layers/2_second_layer/2.png",
             "./img/5_background/layers/1_first_layer/2.png",
         ],
+        start: "img/5_background/layers/1_first_layer/levelStart.png",
+        end: "img/5_background/layers/1_first_layer/levelEnd.png",
     };
 
     static bars = {
