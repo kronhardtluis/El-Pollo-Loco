@@ -3,6 +3,7 @@ import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { Keyboard } from "./keyboard.class.js";
 import { MovableObject } from "./moveable-object.class.js";
+import { UPGRADES } from "./upgrades.class.js";
 //#endregion
 
 // für anyKey (Space-taste ein Ticket)
@@ -23,9 +24,6 @@ export class Character extends MovableObject {
         bottom: 30,
         left: 20,
     };
-    speed = 5;
-    jumpStrength = 25;
-    throwStrength = 0;
     doingNothing = false;
     lastAction = 0;
     idleDate = 0;
@@ -43,6 +41,7 @@ export class Character extends MovableObject {
         this.loadImages(ImageHub.character.dead);
         IntervalHub.startInterval(this.applyGravity, 30);
         IntervalHub.startInterval(this.animate, 1000 / 60);
+        this.energy = UPGRADES.energy;
     }
 
     //#region animation
@@ -53,15 +52,15 @@ export class Character extends MovableObject {
         // IntervalHub.startInterval(this.playAnimation(ImageHub.character.dead), 100);                 // stoppt alle Intervalle wenn tot
         // } else {
         if (Keyboard.RIGHT && this.x < this.world.level.levelEndX + 90) {
-            this.moveRight(this.speed);
+            this.moveRight(UPGRADES.speed);
             this.otherDirection = false;
         }
         if (Keyboard.LEFT && this.x > -600) {
-            this.moveLeft(this.speed);
+            this.moveLeft(UPGRADES.speed);
             this.otherDirection = true;
         }
         if (Keyboard.UP && !this.isAboveGround()) {
-            this.jump(this.jumpStrength);
+            this.jump(UPGRADES.jumpStrength);
         }
         if (this.anyKey()) {
             this.resetIdle();
