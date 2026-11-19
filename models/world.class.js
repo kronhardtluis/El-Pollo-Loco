@@ -6,6 +6,7 @@ import { Bottle } from "./bottle.class.js";
 import { Character } from "./character.class.js";
 import { Chicken } from "./chicken.class.js";
 import { Coins } from "./coins.class.js";
+import { hudNumbers } from "./hud-numbers.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { Statusbar } from "./status-bar.class.js";
 import { ThrowableObject } from "./throwable-object.class.js";
@@ -25,19 +26,34 @@ export class World {
         _images: ImageHub.bars.health,
         _percentage: 100,
         _x: 0,
+        _barYLevel: 0,
     });
     coinbar = new Statusbar({
         _images: ImageHub.bars.coins,
         _percentage: 0,
         _x: 0,
+        _barYLevel: 1,
     });
     bottlebar = new Statusbar({
         _images: ImageHub.bars.bottle,
         _percentage: 0,
         _x: 0,
+        _barYLevel: 2,
+    });
+    healthNumber = new hudNumbers({
+        _barYLevel: 0,
+        _color: "#EB4C88",
+    });
+    coinNumber = new hudNumbers({
+        _barYLevel: 1,
+        _color: "#FFCC01",
+    });
+    bottleNumber = new hudNumbers({
+        _barYLevel: 2,
+        _color: "#BF0000",
     });
     throwableObjects = [];
-    static cooldown = false;
+    cooldown = false;
     imageCache = {};
     currentImage = 0;
     bottleCounter = 0;
@@ -64,6 +80,9 @@ export class World {
             this.checkBottleCollision();
         }
         this.checkCollectables();
+        this.healthNumber.value = this.character.energy / 20;
+        this.coinNumber.value = this.coinCounter;
+        this.bottleNumber.value = this.bottleCounter;
     };
 
     //#region Collisions
@@ -74,7 +93,7 @@ export class World {
                 this.backbounce(enemy);
                 enemy.die();
             } else if (this.hitByAliveChicken(enemy)) {
-                this.character.hit();
+                this.character.hit(20);
                 this.healthbar.setPercentage(
                     ImageHub.bars.health,
                     this.character.energy,
@@ -177,18 +196,17 @@ export class World {
             );
             this.throwableObjects.push(bottle);
             this.bottleCounter--;
-            World.cooldown = true;
+            this.cooldown = true;
             this.setBottlebar();
             setTimeout(() => {
-                World.cooldown = false;
+                this.cooldown = false;
             }, UPGRADES.throwCooldown);
         }
     }
 
     throwingConditions() {
         return (
-            Keyboard.SPACE && World.cooldown == false
-            // && this.bottleCounter > 0
+            Keyboard.SPACE && !this.cooldown && this.bottleCounter > 0
         );
     }
 
@@ -212,6 +230,9 @@ export class World {
         this.addToMap(this.healthbar);
         this.addToMap(this.coinbar);
         this.addToMap(this.bottlebar);
+        this.addToMap(this.healthNumber);
+        this.addToMap(this.coinNumber);
+        this.addToMap(this.bottleNumber);
         requestAnimationFrame(() => this.draw());
     }
 
