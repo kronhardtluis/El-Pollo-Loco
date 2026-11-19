@@ -23,10 +23,12 @@ export class Endboss extends MovableObject {
     bossSpawned = false;
     frameCount = 0;
     isDead = false;
+    levelEnd = 0;
     //#endregion
 
-    constructor() {
+    constructor(levelEndX) {
         super();
+        this.levelEnd = levelEndX;
         this.loadImage(ImageHub.boss.alert[0]);
         this.loadImages(ImageHub.boss.alert);
         IntervalHub.startInterval(this.animate, 1000/60);
@@ -49,8 +51,8 @@ export class Endboss extends MovableObject {
     }
 
     setBossX() {
-        if (this.world && this.bossSpawned === false) {
-            this.x = this.world.level.levelEndX;
+        if (this.bossSpawned === false) {
+            this.x = this.levelEnd;
             this.bossSpawned = true;
             this.rX = this.x + this.offset.left;
         }

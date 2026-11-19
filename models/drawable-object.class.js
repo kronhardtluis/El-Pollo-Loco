@@ -6,8 +6,8 @@ export class DrawableObject {
     currentImage = 0;
     x;
     y;
-    height = 150;
-    width = 100;
+    height;
+    width;
     //#endregion
 
     // fügt ein Bild dem Speicher hinzu
@@ -39,8 +39,8 @@ export class DrawableObject {
     drawFrame(ctx) {
         ctx.beginPath();
         ctx.lineWidth = "3";
-        ctx.strokeStyle = "cyan";
-        ctx.rect(this.rX, this.rY, this.rW, this.rH);                           // drawFrame am Ende löschen
+        ctx.strokeStyle = "black";
+        // ctx.rect(this.rX, this.rY, this.rW, this.rH);                           // drawFrame am Ende löschen
         ctx.stroke();
     }
 }

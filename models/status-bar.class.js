@@ -1,25 +1,29 @@
 //#region Imports
-import { ImageHub } from "../js/imagehub.js";
 import { DrawableObject } from "./drawable-object.class.js";
 //#endregion
 
 export class Statusbar extends DrawableObject {
     static count = 0;
     percentage;
+    width = 200;
+    height = 50;
 
-    constructor({images, _percentage}={}) {
+    constructor({_images, _percentage, _x}={}) {
         super();
-        this.x = 0;
-        this.width = 200;
-        this.height = 50;
+        this.x = _x;
         this.y = (this.height - 10) * Statusbar.count - 10;
-        this.setPercentage(images, _percentage);
+        this.setPercentage(_images, _percentage);
+        this.statusbarCounter();
+    }
+
+    statusbarCounter() {
         Statusbar.count++;
+        if(Statusbar.count > 2) Statusbar.count = 0;
     }
 
     // setzt das entsprechende Bild ein
-    setPercentage(images, _percentage) {
-        this.percentage = _percentage;
+    setPercentage(images, percentage) {
+        this.percentage = percentage;
         this.loadImage(images[this.resolveImageIndex()]);
     }
 
@@ -33,7 +37,7 @@ export class Statusbar extends DrawableObject {
             return 3;
         }else if(this.percentage >= 40) {
             return 2;
-        }else if(this.percentage >=20) {
+        }else if(this.percentage > 5) {
             return 1;
         }else {
             return 0;

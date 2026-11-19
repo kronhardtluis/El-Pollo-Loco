@@ -27,10 +27,12 @@ export class Chicken extends MovableObject {
     xSet = false;
     isDead = false;
     slow = 0;
+    levelEnd = 0
     //#endregion
 
-    constructor() {
+    constructor(levelEndX) {
         super();
+        this.levelEnd = levelEndX;
         this.loadImage(ImageHub.chicken.walk[0]);
         this.loadImages(ImageHub.chicken.walk);
         this.loadImages(ImageHub.chicken.dead);
@@ -47,8 +49,8 @@ export class Chicken extends MovableObject {
         } else {
             if (!this.xSet) this.setX();
             if (this.x < -750) {
-                this.x = this.world.level.levelEndX + 750;
-                this.rX = this.world.level.levelEndX + 750;
+                this.x = this.levelEnd + 750;
+                this.rX = this.levelEnd + 750;
             }
             this.determineAnimation();
             if (this.y == 350 && this.jumpStrength != 0) {
@@ -59,7 +61,7 @@ export class Chicken extends MovableObject {
     };
 
     setX() {
-        let calcX = 500 + Math.random() * this.world.level.levelEndX;
+        let calcX = 500 + Math.random() * this.levelEnd;
         this.x = calcX;
         this.rX = calcX;
         this.xSet = true;
