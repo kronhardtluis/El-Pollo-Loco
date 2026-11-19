@@ -6,6 +6,7 @@ import { MovableObject } from "./moveable-object.class.js";
 
 export class Endboss extends MovableObject {
     //#region Attributes
+    energy;
     width = 400;
     height = 450;
     x = 720;

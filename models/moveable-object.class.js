@@ -7,8 +7,6 @@ export class MovableObject extends DrawableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
-    energy = 100;
-    damage = 20;
     lastHit = 0;
     animationStart = false;
     //#endregion
@@ -50,8 +48,8 @@ export class MovableObject extends DrawableObject {
     }
 
     //#region Character-Schaden
-    hit() {
-        this.energy -= this.damage;
+    hit(damage) {
+        this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
         } else {

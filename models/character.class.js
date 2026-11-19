@@ -28,6 +28,7 @@ export class Character extends MovableObject {
     lastAction = 0;
     idleDate = 0;
     frameCount = 0;
+    energy;
     // #endregion
 
     constructor() {
