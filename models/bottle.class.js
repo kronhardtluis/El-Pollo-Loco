@@ -1,6 +1,6 @@
 import { ImageHub } from "../js/imagehub.js";
 import { Collectables } from "./collectables.class.js";
-import { UPGRADES } from "./upgrades.class.js";
+import { UPGRADES } from "./upgrades.js";
 
 export class Bottle extends Collectables {
     // #region Attributes

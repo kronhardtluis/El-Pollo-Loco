@@ -3,7 +3,7 @@ import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { Keyboard } from "./keyboard.class.js";
 import { MovableObject } from "./moveable-object.class.js";
-import { UPGRADES } from "./upgrades.class.js";
+import { UPGRADES } from "./upgrades.js";
 //#endregion
 
 // für anyKey (Space-taste ein Ticket)

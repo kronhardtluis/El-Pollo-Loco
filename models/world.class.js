@@ -9,7 +9,7 @@ import { Coins } from "./coins.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { Statusbar } from "./status-bar.class.js";
 import { ThrowableObject } from "./throwable-object.class.js";
-import { UPGRADES } from "./upgrades.class.js";
+import { UPGRADES } from "./upgrades.js";
 //#endregion
 
 // für Splashanimation und Löschen der Flasche ein Ticket

@@ -2,7 +2,7 @@
 import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { MovableObject } from "./moveable-object.class.js";
-import { UPGRADES } from "./upgrades.class.js";
+import { UPGRADES } from "./upgrades.js";
 //#endregion
 
 export class ThrowableObject extends MovableObject {
