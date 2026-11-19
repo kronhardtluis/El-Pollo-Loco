@@ -5,13 +5,13 @@ export const UPGRADES = {
     speed: 5,
     jumpStrength: 25,
     throwStrength: 0,
-    bottleSpawnCooldown: 3000,
     throwCooldown: 1000,
 
+    bottleSpawnCooldown: 3000,
     bottleCapacity: 5,
+    coinCapacity: 5,
     splashScale: 0.5,
 
     // noch hinzufügen
-    coinCapacity: 5,
-    salsaSpiciness: 1,
+    salsaSpiciness: 20,
 }
