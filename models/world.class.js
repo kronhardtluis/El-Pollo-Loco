@@ -174,7 +174,6 @@ export class World {
                 this.character.x,
                 this.character.y,
                 this.character.otherDirection,
-                UPGRADES.throwStrength,
             );
             this.throwableObjects.push(bottle);
             this.bottleCounter--;

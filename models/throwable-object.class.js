@@ -25,26 +25,26 @@ export class ThrowableObject extends MovableObject {
     frameCount = 0;
     direction = "";
 
-    constructor(_x, _y, _direction, _strength) {
+    constructor(_x, _y, _direction) {
         super();
         this.loadImage(ImageHub.salsaBottle.rotation[0]);
         this.loadImages(ImageHub.salsaBottle.rotation);
         this.loadImages(ImageHub.salsaBottle.splash);
-        this.throw(_x, _y, _direction, _strength);
+        this.throw(_x, _y, _direction);
         IntervalHub.startInterval(this.animate, 1000 / 60);
         IntervalHub.startInterval(this.applyGravity, 30);
     }
 
     // Methode zum werfen bzw Startpunkt und Wurfkraft der Flasche
-    throw(_x, _y, _direction, _strength) {
-        this.speedY = 20;
+    throw(_x, _y, _direction) {
+        this.speedY = 20 - UPGRADES.throwStrength / 2;
         this.y = _y + 130;
         if (_direction) {
             this.x = _x + 10;
-            this.speedX = (8 + _strength) * -1;
+            this.speedX = (8 + UPGRADES.throwStrength) * -1;
         } else {
             this.x = _x + 40;
-            this.speedX = 8 + _strength;
+            this.speedX = 8 + UPGRADES.throwStrength;
         }
     }
 
