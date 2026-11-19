@@ -2,11 +2,14 @@
 import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { LEVEL1 } from "../levels/level1.js";
+import { Bottle } from "./bottle.class.js";
 import { Character } from "./character.class.js";
 import { Chicken } from "./chicken.class.js";
+import { Coins } from "./coins.class.js";
 import { Keyboard } from "./keyboard.class.js";
 import { Statusbar } from "./status-bar.class.js";
 import { ThrowableObject } from "./throwable-object.class.js";
+import { UPGRADES } from "./upgrades.class.js";
 //#endregion
 
 // für Splashanimation und Löschen der Flasche ein Ticket
@@ -19,15 +22,26 @@ export class World {
     ctx;
     camera_x = 0;
     healthbar = new Statusbar({
-        images: ImageHub.bars.health,
+        _images: ImageHub.bars.health,
         _percentage: 100,
+        _x: 0,
     });
-    coinbar = new Statusbar({ images: ImageHub.bars.coins, _percentage: 0 });
-    bottlebar = new Statusbar({ images: ImageHub.bars.bottle, _percentage: 0 });
+    coinbar = new Statusbar({
+        _images: ImageHub.bars.coins,
+        _percentage: 0,
+        _x: 0,
+    });
+    bottlebar = new Statusbar({
+        _images: ImageHub.bars.bottle,
+        _percentage: 0,
+        _x: 0,
+    });
     throwableObjects = [];
     static cooldown = false;
     imageCache = {};
     currentImage = 0;
+    bottleCounter = 0;
+    coinCounter = 0;
     //#endregion
 
     constructor(canvas) {
@@ -40,7 +54,6 @@ export class World {
 
     setWorld() {
         this.character.world = this; // fügt dem Attribut world der instanzierten Klasse Character die Instanz von der erstellten Welt hinzu
-        this.level.enemies.forEach((enemy) => (enemy.world = this));
     }
 
     // Sammlung der dauerhaften Checks
@@ -50,6 +63,7 @@ export class World {
         if (this.throwableObjects.length > 0) {
             this.checkBottleCollision();
         }
+        this.checkCollectables();
     };
 
     //#region Collisions
@@ -57,11 +71,7 @@ export class World {
     checkCharacterCollisions() {
         LEVEL1.enemies.forEach((enemy) => {
             if (this.jumpOnAliveChicken(enemy)) {
-                this.character.speedY =
-                    (enemy.speedY +
-                        this.character.jumpStrength -
-                        this.character.speedY) /
-                    2;
+                this.backbounce(enemy);
                 enemy.die();
             } else if (this.hitByAliveChicken(enemy)) {
                 this.character.hit();
@@ -82,12 +92,56 @@ export class World {
         );
     }
 
+    backbounce(enemy) {
+        this.character.speedY =
+            (enemy.speedY + UPGRADES.jumpStrength - this.character.speedY) / 2;
+    }
+
     hitByAliveChicken(enemy) {
         return (
             this.character.isColliding(enemy) &&
             !this.character.isHurt() &&
             !enemy.isDead
         );
+    }
+
+    checkCollectables() {
+        LEVEL1.collectables.forEach((collectable, i) => {
+            if (this.collectConditions(collectable, i)) {
+                if (collectable instanceof Coins) {
+                    this.collectCoin(i);
+                }
+                if (this.bottleCollectConditions(collectable)) {
+                    this.bottleCounter++;
+                    this.setBottlebar();
+                    collectable.setCollectTimer();
+                }
+                collectable.collected = true;
+            }
+        });
+    }
+
+    collectConditions(collectable, i) {
+        return (
+            collectable.collected == false &&
+            this.character.isColliding(collectable)
+        );
+    }
+
+    bottleCollectConditions(collectable) {
+        return (
+            collectable instanceof Bottle &&
+            this.bottleCounter < UPGRADES.bottleCapacity
+        );
+    }
+
+    collectCoin(index) {
+        this.coinCounter++;
+        let percentage;
+        if (this.coinCounter >= UPGRADES.coinCapacity) percentage = 100;
+        else percentage = (100 / UPGRADES.coinCapacity) * this.coinCounter;
+        this.coinbar.setPercentage(ImageHub.bars.coins, percentage);
+        LEVEL1.collectables.splice(index, 1);
     }
 
     checkBottleCollision() {
@@ -115,19 +169,33 @@ export class World {
 
     // Werfen der Flasche + Cooldown
     checkBottle() {
-        if (Keyboard.SPACE && World.cooldown == false) {
+        if (this.throwingConditions()) {
             const bottle = new ThrowableObject(
                 this.character.x,
                 this.character.y,
                 this.character.otherDirection,
-                this.character.throwStrength,
+                UPGRADES.throwStrength,
             );
             this.throwableObjects.push(bottle);
+            this.bottleCounter--;
             World.cooldown = true;
+            this.setBottlebar();
             setTimeout(() => {
                 World.cooldown = false;
-            }, 1000 / 3);
+            }, UPGRADES.throwCooldown);
         }
+    }
+
+    throwingConditions() {
+        return (
+            Keyboard.SPACE && World.cooldown == false
+            // && this.bottleCounter > 0
+        );
+    }
+
+    setBottlebar() {
+        const percentage = (100 / UPGRADES.bottleCapacity) * this.bottleCounter;
+        this.bottlebar.setPercentage(ImageHub.bars.bottle, percentage);
     }
 
     // #region Bilder einfügen
@@ -137,8 +205,9 @@ export class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.collectables);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.healthbar);

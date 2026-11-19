@@ -1,10 +1,12 @@
-import { DrawableObject } from "./drawable-object.class";
+import { DrawableObject } from "./drawable-object.class.js";
 
 // Superclass von: Bottle und Coins
 export class Collectables extends DrawableObject {
     // #region Attributes
-    static worldItems = [];
-    worldItemCount = 10;
-    collected;
+    collected = false;
+    rW;
+    rH;
+    rX;
+    rY;
     // #endregion
 }
