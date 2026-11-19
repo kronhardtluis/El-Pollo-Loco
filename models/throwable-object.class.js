@@ -2,6 +2,7 @@
 import { ImageHub } from "../js/imagehub.js";
 import { IntervalHub } from "../js/intervalhub.js";
 import { MovableObject } from "./moveable-object.class.js";
+import { UPGRADES } from "./upgrades.class.js";
 //#endregion
 
 export class ThrowableObject extends MovableObject {
@@ -93,6 +94,7 @@ export class ThrowableObject extends MovableObject {
     }
 
     splashAnimation(array, index) {
+        this.splashScaling();
         if (this.currentImage < ImageHub.salsaBottle.splash.length) {
             if (this.frameCount % 6 === 0) {
                 this.frameCount = 1;
@@ -103,6 +105,14 @@ export class ThrowableObject extends MovableObject {
         } else {
             array.splice(index, 1);
         }
+    }
+
+    splashScaling() {
+        const sS = UPGRADES.splashScale;
+        this.height += sS;
+        this.width += sS;
+        this.x -= sS / 2;
+        this.y -= sS / 2;
     }
 }
 
