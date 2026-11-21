@@ -9,8 +9,9 @@ export class Endboss extends MovableObject {
     energy;
     width = 400;
     height = 450;
-    x = 720;
-    y = 5;
+    x = 100;
+    y = -50;
+    groundY = 450;
     rX;
     rY;
     rW;

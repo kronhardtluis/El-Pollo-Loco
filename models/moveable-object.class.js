@@ -6,6 +6,7 @@ export class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
+    groundY = 430;
     acceleration = 2.5;
     lastHit = 0;
     animationStart = false;
@@ -17,15 +18,15 @@ export class MovableObject extends DrawableObject {
             this.y -= this.speedY;
             this.rY -= this.speedY;
             this.speedY -= this.acceleration;
-            if (this.y + this.height > 430) {
-                this.y = 430 - this.height;
-                this.rY = 430 - this.height;
+            if (this.y + this.height > this.groundY) {
+                this.y = this.groundY - this.height;
+                this.rY = this.groundY - this.height;
             }
         }
     };
 
     isAboveGround() {
-        return this.y + this.height < 430;
+        return this.y + this.height < this.groundY;
     }
 
     // collisiondetecting
