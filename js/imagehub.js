@@ -99,6 +99,7 @@ export class ImageHub {
             "./img/4_enemie_boss_chicken/2_alert/G10.png",
             "./img/4_enemie_boss_chicken/2_alert/G11.png",
             "./img/4_enemie_boss_chicken/2_alert/G12.png",
+            "./img/4_enemie_boss_chicken/2_alert/G27.png",
         ],
         attack: [
             "./img/4_enemie_boss_chicken/3_attack/G13.png",
@@ -109,6 +110,8 @@ export class ImageHub {
             "./img/4_enemie_boss_chicken/3_attack/G18.png",
             "./img/4_enemie_boss_chicken/3_attack/G19.png",
             "./img/4_enemie_boss_chicken/3_attack/G20.png",
+            "./img/4_enemie_boss_chicken/3_attack/G28.png",
+            "./img/4_enemie_boss_chicken/3_attack/G29.png",
         ],
         hurt: [
             "./img/4_enemie_boss_chicken/4_hurt/G21.png",
